@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="8dp"
+    android:clickable="true"
+    card_view:cardCornerRadius="3dp"
+    card_view:cardElevation="2dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/hour_weather_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/one_clock_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="12dp"
+                android:drawableLeft="@drawable/icon_time"
+                tools:text="16:00"
+                android:drawableStart="@drawable/icon_time"
+                android:layout_marginLeft="8dp"/>
+            <TextView
+                android:id="@+id/one_temp_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/icon_temp"
+                tools:text="12°"
+                android:drawableStart="@drawable/icon_temp" />
+
+            <TextView
+                android:id="@+id/one_humidity_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/icon_humidity"
+                tools:text="81%"
+                android:drawableStart="@drawable/icon_humidity" />
+
+            <TextView
+                android:id="@+id/one_wind_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="12dp"
+                android:drawableLeft="@drawable/icon_wind"
+                tools:text="14Km"
+                android:drawableStart="@drawable/icon_wind" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/hour_weather_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/one_clock_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="12dp"
+                android:drawableLeft="@drawable/icon_time"
+                tools:text="16:00"
+                android:drawableStart="@drawable/icon_time"
+                android:layout_marginLeft="8dp"/>
+            <TextView
+                android:id="@+id/one_temp_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/icon_temp"
+                tools:text="12°"
+                android:drawableStart="@drawable/icon_temp" />
+
+            <TextView
+                android:id="@+id/one_humidity_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/icon_humidity"
+                tools:text="81%"
+                android:drawableStart="@drawable/icon_humidity" />
+
+            <TextView
+                android:id="@+id/one_wind_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="12dp"
+                android:drawableLeft="@drawable/icon_wind"
+                tools:text="14Km"
+                android:drawableStart="@drawable/icon_wind" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/hour_weather_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/one_clock_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="12dp"
+                android:drawableLeft="@drawable/icon_time"
+                tools:text="16:00"
+                android:drawableStart="@drawable/icon_time"
+                android:layout_marginLeft="8dp"/>
+            <TextView
+                android:id="@+id/one_temp_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/icon_temp"
+                tools:text="12°"
+                android:drawableStart="@drawable/icon_temp" />
+
+            <TextView
+                android:id="@+id/one_humidity_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/icon_humidity"
+                tools:text="81%"
+                android:drawableStart="@drawable/icon_humidity" />
+
+            <TextView
+                android:id="@+id/one_wind_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="12dp"
+                android:drawableLeft="@drawable/icon_wind"
+                tools:text="14Km"
+                android:drawableStart="@drawable/icon_wind" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/hour_weather_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/one_clock_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="12dp"
+                android:drawableLeft="@drawable/icon_time"
+                tools:text="16:00"
+                android:drawableStart="@drawable/icon_time"
+                android:layout_marginLeft="8dp"/>
+            <TextView
+                android:id="@+id/one_temp_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/icon_temp"
+                tools:text="12°"
+                android:drawableStart="@drawable/icon_temp" />
+
+            <TextView
+                android:id="@+id/one_humidity_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/icon_humidity"
+                tools:text="81%"
+                android:drawableStart="@drawable/icon_humidity" />
+
+            <TextView
+                android:id="@+id/one_wind_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="12dp"
+                android:drawableLeft="@drawable/icon_wind"
+                tools:text="14Km"
+                android:drawableStart="@drawable/icon_wind" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/hour_weather_5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/one_clock_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="12dp"
+                android:drawableLeft="@drawable/icon_time"
+                tools:text="16:00"
+                android:drawableStart="@drawable/icon_time"
+                android:layout_marginLeft="8dp"/>
+            <TextView
+                android:id="@+id/one_temp_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/icon_temp"
+                tools:text="12°"
+                android:drawableStart="@drawable/icon_temp" />
+
+            <TextView
+                android:id="@+id/one_humidity_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/icon_humidity"
+                tools:text="81%"
+                android:drawableStart="@drawable/icon_humidity" />
+
+            <TextView
+                android:id="@+id/one_wind_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="12dp"
+                android:drawableLeft="@drawable/icon_wind"
+                tools:text="14Km"
+                android:drawableStart="@drawable/icon_wind" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/hour_weather_6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/one_clock_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="12dp"
+                android:drawableLeft="@drawable/icon_time"
+                tools:text="16:00"
+                android:drawableStart="@drawable/icon_time"
+                android:layout_marginLeft="8dp"/>
+            <TextView
+                android:id="@+id/one_temp_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/icon_temp"
+                tools:text="12°"
+                android:drawableStart="@drawable/icon_temp" />
+
+            <TextView
+                android:id="@+id/one_humidity_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/icon_humidity"
+                tools:text="81%"
+                android:drawableStart="@drawable/icon_humidity" />
+
+            <TextView
+                android:id="@+id/one_wind_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="12dp"
+                android:drawableLeft="@drawable/icon_wind"
+                tools:text="14Km"
+                android:drawableStart="@drawable/icon_wind" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/hour_weather_7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/one_clock_7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="12dp"
+                android:drawableLeft="@drawable/icon_time"
+                tools:text="16:00"
+                android:drawableStart="@drawable/icon_time"
+                android:layout_marginLeft="8dp"/>
+            <TextView
+                android:id="@+id/one_temp_7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/icon_temp"
+                tools:text="12°"
+                android:drawableStart="@drawable/icon_temp" />
+
+            <TextView
+                android:id="@+id/one_humidity_7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/icon_humidity"
+                tools:text="81%"
+                android:drawableStart="@drawable/icon_humidity" />
+
+            <TextView
+                android:id="@+id/one_wind_7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="12dp"
+                android:drawableLeft="@drawable/icon_wind"
+                tools:text="14Km"
+                android:drawableStart="@drawable/icon_wind" />
+        </LinearLayout>
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
