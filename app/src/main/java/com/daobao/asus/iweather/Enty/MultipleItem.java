@@ -24,24 +24,16 @@ public class MultipleItem implements MultiItemEntity {
      */
     public static final int ForecastView = 4;
     private int itemType;
-    public ForecastWeatherBean mForecastWeatherBean;
-    public NowWeatherBean mNowWeatherBean;
-    public HourlyWeatherBean mHourlyWeatherBean;
-    public LifeBean mLifeBean;
+    public NewWeatherBean mNewWeatherBean;
     public AirBean mAirBean;
 
-    public MultipleItem(int itemType,NowWeatherBean mNowWeatherBean,
-                        ForecastWeatherBean mForecastWeatherBean,
+    public MultipleItem(int itemType,
                         AirBean mAirBean,
-                        HourlyWeatherBean mHourlyWeatherBean,
-                        LifeBean mLifeBean)
+                        NewWeatherBean mNewWeatherBean)
     {
         this.itemType = itemType;
-        this.mForecastWeatherBean = mForecastWeatherBean;
-        this.mNowWeatherBean = mNowWeatherBean;
         this.mAirBean = mAirBean;
-        this.mHourlyWeatherBean = mHourlyWeatherBean;
-        this.mLifeBean = mLifeBean;
+        this.mNewWeatherBean = mNewWeatherBean;
     }
     @Override
     public int getItemType() {

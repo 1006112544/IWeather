@@ -162,5 +162,205 @@
                     android:text="少云  最高12℃  东北风 10 到 15 km/h"/>
             </RelativeLayout>
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/weather_forecast_4"
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/forecast_icon_4"
+                android:layout_gravity="center_vertical"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@mipmap/type_one_fog"/>
+
+            <RelativeLayout
+                android:layout_marginLeft="36dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp">
+
+                <TextView
+                    android:textStyle="bold"
+                    android:id="@+id/forecast_date_4"
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="今日"/>
+
+                <TextView
+                    android:textSize="12sp"
+                    android:id="@+id/forecast_temp_4"
+                    android:layout_marginRight="5dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="最低温度:13°"
+                    android:layout_marginEnd="5dp"
+                    android:layout_alignParentEnd="true" />
+
+                <TextView
+                    android:textColor="#969696"
+                    android:layout_marginTop="4dp"
+                    android:textSize="10sp"
+                    android:layout_below="@+id/forecast_date_4"
+                    android:id="@+id/forecast_txt_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="少云  最高12℃  东北风 10 到 15 km/h"/>
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/weather_forecast_5"
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/forecast_icon_5"
+                android:layout_gravity="center_vertical"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@mipmap/type_one_fog"/>
+
+            <RelativeLayout
+                android:layout_marginLeft="36dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp">
+
+                <TextView
+                    android:textStyle="bold"
+                    android:id="@+id/forecast_date_5"
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="今日"/>
+
+                <TextView
+                    android:textSize="12sp"
+                    android:id="@+id/forecast_temp_5"
+                    android:layout_marginRight="5dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="最低温度:13°"
+                    android:layout_marginEnd="5dp"
+                    android:layout_alignParentEnd="true" />
+
+                <TextView
+                    android:textColor="#969696"
+                    android:layout_marginTop="4dp"
+                    android:textSize="10sp"
+                    android:layout_below="@+id/forecast_date_5"
+                    android:id="@+id/forecast_txt_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="少云  最高12℃  东北风 10 到 15 km/h"/>
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/weather_forecast_6"
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/forecast_icon_6"
+                android:layout_gravity="center_vertical"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@mipmap/type_one_fog"/>
+
+            <RelativeLayout
+                android:layout_marginLeft="36dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp">
+
+                <TextView
+                    android:textStyle="bold"
+                    android:id="@+id/forecast_date_6"
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="今日"/>
+
+                <TextView
+                    android:textSize="12sp"
+                    android:id="@+id/forecast_temp_6"
+                    android:layout_marginRight="5dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="最低温度:13°"
+                    android:layout_marginEnd="5dp"
+                    android:layout_alignParentEnd="true" />
+
+                <TextView
+                    android:textColor="#969696"
+                    android:layout_marginTop="4dp"
+                    android:textSize="10sp"
+                    android:layout_below="@+id/forecast_date_6"
+                    android:id="@+id/forecast_txt_6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="少云  最高12℃  东北风 10 到 15 km/h"/>
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/weather_forecast_7"
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/forecast_icon_7"
+                android:layout_gravity="center_vertical"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@mipmap/type_one_fog"/>
+
+            <RelativeLayout
+                android:layout_marginLeft="36dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp">
+
+                <TextView
+                    android:textStyle="bold"
+                    android:id="@+id/forecast_date_7"
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="今日"/>
+
+                <TextView
+                    android:textSize="12sp"
+                    android:id="@+id/forecast_temp_7"
+                    android:layout_marginRight="5dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="最低温度:13°"
+                    android:layout_marginEnd="5dp"
+                    android:layout_alignParentEnd="true" />
+
+                <TextView
+                    android:textColor="#969696"
+                    android:layout_marginTop="4dp"
+                    android:textSize="10sp"
+                    android:layout_below="@+id/forecast_date_7"
+                    android:id="@+id/forecast_txt_7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="少云  最高12℃  东北风 10 到 15 km/h"/>
+            </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>
