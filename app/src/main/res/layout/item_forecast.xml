@@ -4,10 +4,8 @@
     android:layout_height="wrap_content"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_margin="8dp"
-    android:clickable="true"
     card_view:cardCornerRadius="3dp"
-    card_view:cardElevation="2dp"
-    android:focusable="true">
+    card_view:cardElevation="2dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,7 +21,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@mipmap/type_one_sunny"/>
+                android:src="@mipmap/sunny"/>
 
             <RelativeLayout
                 android:layout_marginLeft="36dp"
@@ -73,7 +71,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@mipmap/type_one_cloudy"/>
+                android:src="@mipmap/cloudy"/>
 
             <RelativeLayout
                 android:layout_marginLeft="36dp"
@@ -123,7 +121,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@mipmap/type_one_fog"/>
+                android:src="@mipmap/fog"/>
 
             <RelativeLayout
                 android:layout_marginLeft="36dp"
@@ -173,7 +171,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@mipmap/type_one_fog"/>
+                android:src="@mipmap/fog"/>
 
             <RelativeLayout
                 android:layout_marginLeft="36dp"
@@ -223,7 +221,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@mipmap/type_one_fog"/>
+                android:src="@mipmap/fog"/>
 
             <RelativeLayout
                 android:layout_marginLeft="36dp"
@@ -273,7 +271,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@mipmap/type_one_fog"/>
+                android:src="@mipmap/fog"/>
 
             <RelativeLayout
                 android:layout_marginLeft="36dp"
@@ -323,7 +321,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@mipmap/type_one_fog"/>
+                android:src="@mipmap/fog"/>
 
             <RelativeLayout
                 android:layout_marginLeft="36dp"

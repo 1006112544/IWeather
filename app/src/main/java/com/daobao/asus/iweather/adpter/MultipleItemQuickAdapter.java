@@ -1,10 +1,14 @@
 package com.daobao.asus.iweather.adpter;
 
 import android.content.Context;
+import android.telecom.InCallService;
+import android.util.Log;
+
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.daobao.asus.iweather.Enty.MultipleItem;
 import com.daobao.asus.iweather.R;
+import com.daobao.asus.iweather.util.WeatherIconSelector;
 
 import java.util.List;
 
@@ -33,6 +37,12 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
     protected void convert(BaseViewHolder helper, MultipleItem item) {
         switch (helper.getItemViewType()) {
             case MultipleItem.NowWeatherView:
+                String IconName = WeatherIconSelector.WeatherIconName(item.mNewWeatherBean.getHeWeather6()
+                        .get(0).getNow().getCond_code());
+                //根据名字查找资源id
+                int Icon = context.getResources().getIdentifier(IconName,"mipmap",
+                        context.getApplicationContext().getPackageName());
+                helper.setImageResource(R.id.T_weather_icon,Icon);
                 helper.setText(R.id.T_weather, item.mNewWeatherBean.getHeWeather6()
                         .get(0).getNow().getCond_txt());
                 helper.setText(R.id.T_temperature, item.mNewWeatherBean.getHeWeather6()
@@ -91,6 +101,15 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                 break;
             case MultipleItem.ForecastView:
                 for(int i=1;i<8;i++) {
+                    String IconName_forecast = WeatherIconSelector.WeatherIconName(item.mNewWeatherBean.getHeWeather6()
+                            .get(0).getDaily_forecast().get(i-1).getCond_code_d());
+                    //根据名字查找资源id
+                    int Icon_forecast_id = context.getResources().getIdentifier(IconName_forecast,"mipmap",
+                            context.getApplicationContext().getPackageName());
+                    //根据名称查找控件id数值
+                    int forecast_icon= context.getResources().getIdentifier("forecast_icon_"+i, "id",
+                            context.getApplicationContext().getPackageName());
+                    helper.setImageResource(forecast_icon,Icon_forecast_id);
                     //根据名称查找控件id数值
                     int forecast_date = context.getResources().getIdentifier("forecast_date_"+i, "id",
                             context.getApplicationContext().getPackageName());

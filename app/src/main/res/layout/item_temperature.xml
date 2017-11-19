@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:clickable="true"
     card_view:cardCornerRadius="3dp"
     card_view:cardElevation="2dp"
     android:focusable="true">
@@ -21,7 +20,7 @@
                 android:id="@+id/T_weather_icon"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:src="@mipmap/type_one_sunny"/>
+                android:src="@mipmap/sunny"/>
             <TextView
                 android:id="@+id/T_weather"
                 android:layout_width="wrap_content"
