@@ -1,6 +1,7 @@
 package com.daobao.asus.iweather.fragment;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
+
 import com.daobao.asus.iweather.Enty.AirBean;
 import com.daobao.asus.iweather.Enty.MultipleItem;
 import com.daobao.asus.iweather.Enty.NewWeatherBean;
@@ -24,6 +27,7 @@ import com.daobao.asus.iweather.net.CallBack.IError;
 import com.daobao.asus.iweather.net.CallBack.IFailure;
 import com.daobao.asus.iweather.net.CallBack.ISuccess;
 import com.daobao.asus.iweather.net.RestClient;
+import com.daobao.asus.iweather.util.NetState;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +53,7 @@ public class MainFragment extends Fragment {
     private NewWeatherBean mNewWeatherBean;
     private View view;
     protected boolean mIsCreateView = false;
+    private MultipleItemQuickAdapter mAdapter;
     private List<MultipleItem> data;
     private int UpdaTime = 0;
     @SuppressLint("HandlerLeak")
@@ -57,15 +62,50 @@ public class MainFragment extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            UpdaTime++;
-            if(UpdaTime==2)
+            if (msg.what == 1) {
+                UpdaTime++;
+                if (UpdaTime == 2) {
+                    data = new ArrayList<>();
+                    data.add(new MultipleItem(1, mAirBean, mNewWeatherBean));
+                    data.add(new MultipleItem(2, mAirBean, mNewWeatherBean));
+                    data.add(new MultipleItem(3, mAirBean, mNewWeatherBean));
+                    data.add(new MultipleItem(4, mAirBean, mNewWeatherBean));
+                    mAdapter = new MultipleItemQuickAdapter(data, getContext());
+                    mAdapter.openLoadAnimation(0x00000001);
+                    //不只执行一次动画
+                    mAdapter.isFirstOnly(false);
+                    mRecyclerView.setAdapter(mAdapter);
+                    mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    UpdaTime = 0;
+                }
+            }
+            else if (msg.what == 2)
+            {
+                UpdaTime++;
+                if(UpdaTime==2) {
+                    data.clear();
+                    data.add(new MultipleItem(1, mAirBean, mNewWeatherBean));
+                    data.add(new MultipleItem(2, mAirBean, mNewWeatherBean));
+                    data.add(new MultipleItem(3, mAirBean, mNewWeatherBean));
+                    data.add(new MultipleItem(4, mAirBean, mNewWeatherBean));
+                    mAdapter.notifyDataSetChanged();
+                    Toast.makeText(getContext(),"刷新成功",Toast.LENGTH_SHORT).show();
+                    mRefreshLayout.setRefreshing(false);
+                    UpdaTime = 0;
+                }
+            }
+            else if(msg.what == 3)
             {
                 data = new ArrayList<>();
-                data.add(new MultipleItem(1,mAirBean,mNewWeatherBean));
-                data.add(new MultipleItem(2,mAirBean,mNewWeatherBean));
-                data.add(new MultipleItem(3,mAirBean,mNewWeatherBean));
-                data.add(new MultipleItem(4,mAirBean,mNewWeatherBean));
-                mRecyclerView.setAdapter(new MultipleItemQuickAdapter(data,getContext()));
+                data.add(new MultipleItem(1, mAirBean, mNewWeatherBean));
+                data.add(new MultipleItem(2, mAirBean, mNewWeatherBean));
+                data.add(new MultipleItem(3, mAirBean, mNewWeatherBean));
+                data.add(new MultipleItem(4, mAirBean, mNewWeatherBean));
+                mAdapter = new MultipleItemQuickAdapter(data, getContext());
+                mAdapter.openLoadAnimation(0x00000001);
+                //不只执行一次动画
+                mAdapter.isFirstOnly(false);
+                mRecyclerView.setAdapter(mAdapter);
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             }
         }
@@ -75,7 +115,28 @@ public class MainFragment extends Fragment {
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_main, container, false);
             ButterKnife.bind(this, view);
-            initHttp();
+            if(NetState.isNetworkAvailable(getContext()))
+            {
+                initHttp(1);
+            }
+            else handler.sendEmptyMessage(3);
+            //设置刷新progressbar颜色
+            mRefreshLayout.setColorSchemeColors(Color.BLUE,Color.GREEN,Color.YELLOW,Color.RED);
+            //设置刷新监听
+            mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    if(NetState.isNetworkAvailable(getContext()))
+                    {
+                        initHttp(2);
+                    }
+                    else
+                    {
+                        Toast.makeText(getContext(),"请检查网络",Toast.LENGTH_SHORT).show();
+                        mRefreshLayout.setRefreshing(false);
+                    }
+                }
+            });
         }
         //mIsCreateView = true;
         return view;
@@ -101,7 +162,7 @@ public class MainFragment extends Fragment {
 
     }
 
-    private void initHttp()
+    private void initHttp(final int msg)
     {
         RestClient.builder()
                 .url("https://free-api.heweather.com/s6/air/now?parameters")
@@ -114,7 +175,7 @@ public class MainFragment extends Fragment {
                         Log.d("cc", "air: "+response);
                         Gson g = new Gson();
                         mAirBean = g.fromJson(response, AirBean.class);
-                        handler.sendEmptyMessage(1);
+                        handler.sendEmptyMessage(msg);
                     }
                 })
                 .failure(new IFailure() {
@@ -142,7 +203,7 @@ public class MainFragment extends Fragment {
                         Log.d("cc", "sum: "+response);
                         Gson g = new Gson();
                         mNewWeatherBean= g.fromJson(response, NewWeatherBean.class);
-                        handler.sendEmptyMessage(1);
+                        handler.sendEmptyMessage(msg);
                     }
                 })
                 .failure(new IFailure() {
