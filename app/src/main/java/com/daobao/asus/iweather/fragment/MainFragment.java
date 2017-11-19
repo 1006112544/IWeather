@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 
 import com.daobao.asus.iweather.Enty.AirBean;
 import com.daobao.asus.iweather.Enty.HourlyWeatherBean;
+import com.daobao.asus.iweather.Enty.LifeBean;
 import com.daobao.asus.iweather.Enty.MultipleItem;
 import com.daobao.asus.iweather.Enty.ForecastWeatherBean;
 import com.daobao.asus.iweather.Enty.NowWeatherBean;
@@ -54,6 +55,7 @@ public class MainFragment extends Fragment {
     private NowWeatherBean mNowWeatherBean;
     private AirBean mAirBean;
     private HourlyWeatherBean mHourlyWeatherBean;
+    private LifeBean mLifeBean;
     private View view;
     protected boolean mIsCreateView = false;
     private List<MultipleItem> data;
@@ -65,17 +67,17 @@ public class MainFragment extends Fragment {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             UpdaTime++;
-            if(UpdaTime==4)
+            if(UpdaTime==5)
             {
                 data = new ArrayList<>();
                 data.add(new MultipleItem(1,mNowWeatherBean,mForecastWeatherBean,mAirBean,
-                        mHourlyWeatherBean));
+                        mHourlyWeatherBean,mLifeBean));
                 data.add(new MultipleItem(2,mNowWeatherBean,mForecastWeatherBean,mAirBean,
-                        mHourlyWeatherBean));
+                        mHourlyWeatherBean,mLifeBean));
                 data.add(new MultipleItem(3,mNowWeatherBean,mForecastWeatherBean,mAirBean,
-                        mHourlyWeatherBean));
+                        mHourlyWeatherBean,mLifeBean));
                 data.add(new MultipleItem(4,mNowWeatherBean,mForecastWeatherBean,mAirBean,
-                        mHourlyWeatherBean));
+                        mHourlyWeatherBean,mLifeBean));
                 mRecyclerView.setAdapter(new MultipleItemQuickAdapter(data,getContext()));
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             }
@@ -122,36 +124,9 @@ public class MainFragment extends Fragment {
                 .success(new ISuccess() {
                     @Override
                     public void onSuccess(String response) {
-                        Log.d("cc", "onSuccess: "+response);
+                        Log.d("cc", "forecast: "+response);
                         Gson g = new Gson();
                         mForecastWeatherBean = g.fromJson(response, ForecastWeatherBean.class);
-                        handler.sendEmptyMessage(1);
-                    }
-                })
-                .failure(new IFailure() {
-                    @Override
-                    public void onFailure() {
-
-                    }
-                })
-                .error(new IError() {
-                    @Override
-                    public void onError(int code, String msg) {
-
-                    }
-                })
-                .build()
-                .post();
-        RestClient.builder()
-                .url("https://free-api.heweather.com/s6/weather/now?parameters")
-                .params("location","绵阳")
-                .params("key","b844972b249244019f2afb19e1f3c889")
-                .context(getContext())
-                .success(new ISuccess() {
-                    @Override
-                    public void onSuccess(String response) {
-                        Gson g = new Gson();
-                        mNowWeatherBean = g.fromJson(response, NowWeatherBean.class);
                         handler.sendEmptyMessage(1);
                     }
                 })
@@ -177,6 +152,7 @@ public class MainFragment extends Fragment {
                 .success(new ISuccess() {
                     @Override
                     public void onSuccess(String response) {
+                        Log.d("cc", "air: "+response);
                         Gson g = new Gson();
                         mAirBean = g.fromJson(response, AirBean.class);
                         handler.sendEmptyMessage(1);
@@ -204,6 +180,7 @@ public class MainFragment extends Fragment {
                 .success(new ISuccess() {
                     @Override
                     public void onSuccess(String response) {
+                        Log.d("cc", "now: "+response);
                         Gson g = new Gson();
                         mNowWeatherBean = g.fromJson(response, NowWeatherBean.class);
                         handler.sendEmptyMessage(1);
@@ -231,9 +208,37 @@ public class MainFragment extends Fragment {
                 .success(new ISuccess() {
                     @Override
                     public void onSuccess(String response) {
-                        Log.d("cc", "onSuccess: "+response);
+                        Log.d("cc", "hourly: "+response);
                         Gson g = new Gson();
                         mHourlyWeatherBean = g.fromJson(response, HourlyWeatherBean.class);
+                        handler.sendEmptyMessage(1);
+                    }
+                })
+                .failure(new IFailure() {
+                    @Override
+                    public void onFailure() {
+
+                    }
+                })
+                .error(new IError() {
+                    @Override
+                    public void onError(int code, String msg) {
+
+                    }
+                })
+                .build()
+                .post();
+        RestClient.builder()
+                .url("https://free-api.heweather.com/s6/weather/lifestyle?parameters")
+                .params("location","绵阳")
+                .params("key","b844972b249244019f2afb19e1f3c889")
+                .context(getContext())
+                .success(new ISuccess() {
+                    @Override
+                    public void onSuccess(String response) {
+                        Log.d("cc", "life: "+response);
+                        Gson g = new Gson();
+                        mLifeBean = g.fromJson(response, LifeBean.class);
                         handler.sendEmptyMessage(1);
                     }
                 })

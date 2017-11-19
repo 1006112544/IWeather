@@ -6,7 +6,8 @@
     android:layout_margin="8dp"
     android:clickable="true"
     card_view:cardCornerRadius="3dp"
-    card_view:cardElevation="2dp">
+    card_view:cardElevation="2dp"
+    android:focusable="true">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,7 +28,8 @@
             <RelativeLayout
                 android:layout_marginLeft="36dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp">
 
                 <TextView
                     android:textStyle="bold"
@@ -38,13 +40,16 @@
                     android:text="今日"/>
 
                 <TextView
-                    android:textSize="18sp"
+                    android:textSize="12sp"
                     android:id="@+id/forecast_temp_1"
                     android:layout_alignParentRight="true"
+                    android:layout_marginRight="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:text="5° 13°"/>
+                    android:text="最低温度:13°"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="5dp" />
 
                 <TextView
                     android:textColor="#969696"
@@ -54,7 +59,7 @@
                     android:id="@+id/forecast_txt_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="少云。最高12℃。东北风 10 到 15 km/h"/>
+                    android:text="少云  最高12℃  东北风 10 到 15 km/h"/>
             </RelativeLayout>
         </LinearLayout>
         <LinearLayout
@@ -73,7 +78,8 @@
             <RelativeLayout
                 android:layout_marginLeft="36dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp">
 
                 <TextView
                     android:textStyle="bold"
@@ -84,13 +90,16 @@
                     android:text="今日"/>
 
                 <TextView
-                    android:textSize="18sp"
+                    android:textSize="12sp"
                     android:id="@+id/forecast_temp_2"
                     android:layout_alignParentRight="true"
+                    android:layout_marginRight="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:text="5° 13°"/>
+                    android:text="最低温度:13°"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="5dp" />
 
                 <TextView
                     android:textColor="#969696"
@@ -100,7 +109,7 @@
                     android:id="@+id/forecast_txt_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="少云。最高12℃。东北风 10 到 15 km/h"/>
+                    android:text="少云  最高12℃  东北风 10 到 15 km/h"/>
             </RelativeLayout>
         </LinearLayout>
         <LinearLayout
@@ -119,7 +128,8 @@
             <RelativeLayout
                 android:layout_marginLeft="36dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp">
 
                 <TextView
                     android:textStyle="bold"
@@ -130,13 +140,16 @@
                     android:text="今日"/>
 
                 <TextView
-                    android:textSize="18sp"
+                    android:textSize="12sp"
                     android:id="@+id/forecast_temp_3"
+                    android:layout_marginRight="5dp"
                     android:layout_alignParentRight="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:text="5° 13°"/>
+                    android:text="最低温度:13°"
+                    android:layout_marginEnd="5dp"
+                    android:layout_alignParentEnd="true" />
 
                 <TextView
                     android:textColor="#969696"
@@ -146,7 +159,7 @@
                     android:id="@+id/forecast_txt_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="少云。最高12℃。东北风 10 到 15 km/h"/>
+                    android:text="少云  最高12℃  东北风 10 到 15 km/h"/>
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

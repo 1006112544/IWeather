@@ -51,6 +51,7 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
             case MultipleItem.HoursWeatherView:
 //                for (int i=0;i<7;i++)
 //                {
+                      //根据名称查找控件id数值
 //                    int intialResID = context.getResources().getIdentifier("one_clock_"+1, "id",
 //                            context.getApplicationContext().getPackageName());
 //                    helper.setText(intialResID, item.mHourlyWeatherBean.getHeWeather6()
@@ -62,12 +63,55 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
 //                    helper.setText(intialResID, item.mHourlyWeatherBean.getHeWeather6()
 //                            .get(0).getHourly().get(i).getWind_sc());
 //                }
-//                Log.d("cc", "convert: "+item.mHourlyWeatherBean.getHeWeather6()
-//                        .get(0).getHourly().get(3).getTime());
                 break;
             case MultipleItem.SuggestionView:
+                helper.setText(R.id.cloth_brief,"穿衣指数---"+item.mLifeBean.getHeWeather6()
+                        .get(0).getLifestyle().get(1).getBrf());
+                helper.setText(R.id.cloth_txt,item.mLifeBean.getHeWeather6()
+                        .get(0).getLifestyle().get(1).getTxt());
+                helper.setText(R.id.flu_brief,"感冒指数---"+item.mLifeBean.getHeWeather6()
+                        .get(0).getLifestyle().get(2).getBrf());
+                helper.setText(R.id.flu_txt,item.mLifeBean.getHeWeather6()
+                        .get(0).getLifestyle().get(2).getTxt());
+                helper.setText(R.id.sport_brief,"运动指数---"+item.mLifeBean.getHeWeather6()
+                        .get(0).getLifestyle().get(3).getBrf());
+                helper.setText(R.id.sport_txt,item.mLifeBean.getHeWeather6()
+                        .get(0).getLifestyle().get(3).getTxt());
+                helper.setText(R.id.travel_brief,"旅游指数---"+item.mLifeBean.getHeWeather6()
+                        .get(0).getLifestyle().get(4).getBrf());
+                helper.setText(R.id.travel_txt,item.mLifeBean.getHeWeather6()
+                        .get(0).getLifestyle().get(4).getTxt());
                 break;
             case MultipleItem.ForecastView:
+                for(int i=1;i<4;i++) {
+                    //根据名称查找控件id数值
+                    int forecast_date = context.getResources().getIdentifier("forecast_date_"+i, "id",
+                            context.getApplicationContext().getPackageName());
+                    if (i == 1) {
+                        helper.setText(forecast_date, "今天");
+                    } else if (i == 2)
+                    {
+                        helper.setText(forecast_date, "明天");
+                    }
+                    else if (i == 3)
+                    {
+                        helper.setText(forecast_date, "后天");
+                    }
+                    //根据名称查找控件id数值
+                    int forecast_temp = context.getResources().getIdentifier("forecast_temp_" + i, "id",
+                            context.getApplicationContext().getPackageName());
+                    helper.setText(forecast_temp,"最低温度:"+item.mForecastWeatherBean.getHeWeather6()
+                            .get(0).getDaily_forecast().get(i-1).getTmp_min()+"℃");
+                    //根据名称查找控件id数值
+                    int forecast_txt = context.getResources().getIdentifier("forecast_txt_" + i, "id",
+                            context.getApplicationContext().getPackageName());
+                    String txt = item.mForecastWeatherBean.getHeWeather6().get(0).getDaily_forecast()
+                            .get(i-1).getCond_txt_d()+"  最高温度"+item.mForecastWeatherBean.getHeWeather6().get(0).getDaily_forecast()
+                            .get(i-1).getTmp_max()+"℃  "+item.mForecastWeatherBean.getHeWeather6().get(0).getDaily_forecast()
+                            .get(i-1).getWind_dir()+"  风力"+item.mForecastWeatherBean.getHeWeather6().get(0).getDaily_forecast()
+                            .get(i-1).getWind_sc();
+                    helper.setText(forecast_txt,txt);
+                }
                 break;
         }
     }
