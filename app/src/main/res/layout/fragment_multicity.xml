@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/layout"
-    android:background="#000000">
+    android:background="#ffffff">
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swiprefresh"
         android:layout_width="match_parent"

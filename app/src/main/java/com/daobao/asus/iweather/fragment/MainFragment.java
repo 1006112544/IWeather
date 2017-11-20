@@ -1,13 +1,13 @@
 package com.daobao.asus.iweather.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,8 +29,12 @@ import com.daobao.asus.iweather.net.CallBack.IFailure;
 import com.daobao.asus.iweather.net.CallBack.ISuccess;
 import com.daobao.asus.iweather.net.RestClient;
 import com.daobao.asus.iweather.util.NetState;
+import com.daobao.asus.iweather.util.MySharedpreference;
 import com.google.gson.Gson;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -57,17 +61,18 @@ public class MainFragment extends Fragment {
     private boolean IsLoadInfoSuccess = false;   //记录数据是否加载成功
     private MultipleItemQuickAdapter mAdapter;
     private List<MultipleItem> data;
-    private int UpdataTime = 0;                    //记录天气数据和空气数据是否都加载成功
+    private int UpdataTime = 0;                  //记录天气数据和空气数据是否都加载成功
     private static final int LOADINFO = 1;       //加载数据
     private static final int UPDATAINFO = 2;     //更新数据
     private static final int LOAD_FAIL = 3;      //加载数据失败
+    SharedPreferences.Editor  editor;
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler()
     {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (msg.what == LOADINFO) //请求数据时调用
+            if (msg.what == LOADINFO) //请求数据或者加载本地数据时调用
             {
                 UpdataTime++;
                 if (UpdataTime == 2) {
@@ -124,28 +129,30 @@ public class MainFragment extends Fragment {
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_main, container, false);
             ButterKnife.bind(this, view);
-            if(NetState.isNetworkAvailable(getContext()))
+            initView();
+            editor = MySharedpreference.getInstance(getContext());
+            if(JugeData())
             {
-                initWeatherInfo(LOADINFO);
-            }
-            else handler.sendEmptyMessage(LOAD_FAIL);
-            //设置刷新progressbar颜色
-            mRefreshLayout.setColorSchemeColors(Color.BLUE,Color.GREEN,Color.YELLOW,Color.RED);
-            //设置刷新监听
-            mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
+                //保存数据是今天则需要取出保存的数据
+                if(!getDataFromLocal())
+                {
                     if(NetState.isNetworkAvailable(getContext()))
                     {
-                        initWeatherInfo(UPDATAINFO);
+                        initWeatherInfo(LOADINFO);
                     }
-                    else
-                    {
-                        Toast.makeText(getContext(),"请检查网络",Toast.LENGTH_SHORT).show();
-                        mRefreshLayout.setRefreshing(false);
-                    }
+                    else handler.sendEmptyMessage(LOAD_FAIL);
                 }
-            });
+            }
+            else
+            {
+                //保存数据不是今天则需要请求数据
+                if(NetState.isNetworkAvailable(getContext()))
+                {
+                    initWeatherInfo(LOADINFO);
+                }
+                else handler.sendEmptyMessage(LOAD_FAIL);
+            }
+
         }
         mIsCreateView = true;
         return view;
@@ -167,6 +174,27 @@ public class MainFragment extends Fragment {
         }
     }
 
+    public void initView()
+    {
+        //设置刷新progressbar颜色
+        mRefreshLayout.setColorSchemeColors(Color.BLUE,Color.GREEN,Color.YELLOW,Color.RED);
+        //设置刷新监听
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if(NetState.isNetworkAvailable(getContext()))
+                {
+                    initWeatherInfo(UPDATAINFO);
+                }
+                else
+                {
+                    Toast.makeText(getContext(),"请检查网络",Toast.LENGTH_SHORT).show();
+                    mRefreshLayout.setRefreshing(false);
+                }
+            }
+        });
+    }
+
     protected void lazyLoad() {
 
     }
@@ -185,7 +213,11 @@ public class MainFragment extends Fragment {
                         Gson g = new Gson();
                         mAirBean = g.fromJson(response, AirBean.class);
                         handler.sendEmptyMessage(msg);
+                        //加载空气信息
                         initAirInfo(msg);
+                        //保存天气信息
+                        editor.putString("AirInfo",response);
+                        editor.commit();
                     }
                 })
                 .failure(new IFailure() {
@@ -223,6 +255,9 @@ public class MainFragment extends Fragment {
                         Gson g = new Gson();
                         mNewWeatherBean= g.fromJson(response, NewWeatherBean.class);
                         handler.sendEmptyMessage(msg);
+                        //保存空气信息
+                        editor.putString("WeatherInfo",response);
+                        editor.commit();
                     }
                 })
                 .failure(new IFailure() {
@@ -245,4 +280,37 @@ public class MainFragment extends Fragment {
                 .post();
     }
 
+    public boolean getDataFromLocal()
+    {
+        String WeatherInfo = MySharedpreference.preferences.getString("WeatherInfo",null);
+        String AirInfo = MySharedpreference.preferences.getString("AirInfo",null);
+        if(WeatherInfo!=null && AirInfo!=null)
+        {
+            Gson g = new Gson();
+            mNewWeatherBean = g.fromJson(WeatherInfo,NewWeatherBean.class);
+            mAirBean = g.fromJson(AirInfo, AirBean.class);
+            //因为本地天气和空气信息是同时获取的所以先将获取次数加一
+            UpdataTime++;
+            handler.sendEmptyMessage(LOADINFO);
+            return true;
+        }
+        return false;
+    }
+    public boolean JugeData()
+    {
+        SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String date = mDateFormat .format(new Date());
+        String SharedDate = MySharedpreference.preferences.getString("Date",null);
+        if(SharedDate==null||!SharedDate.equals(SharedDate))
+        {
+            editor.putString("Date",date);
+            editor.commit();
+            return false;
+        }
+        else if(SharedDate.equals(SharedDate))
+        {
+            return true;
+        }
+        return false;
+    }
 }
