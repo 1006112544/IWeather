@@ -3,7 +3,7 @@ package com.daobao.asus.iweather.adpter;
 import android.content.Context;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.daobao.asus.iweather.Enty.MultipleItem;
+import com.daobao.asus.iweather.Bean.MultipleItem;
 import com.daobao.asus.iweather.R;
 import com.daobao.asus.iweather.util.NetState;
 import com.daobao.asus.iweather.util.WeatherIconSelector;

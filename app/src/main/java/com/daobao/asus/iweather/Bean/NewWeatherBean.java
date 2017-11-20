@@ -1,4 +1,4 @@
-package com.daobao.asus.iweather.Enty;
+package com.daobao.asus.iweather.Bean;
 
 import java.util.List;
 

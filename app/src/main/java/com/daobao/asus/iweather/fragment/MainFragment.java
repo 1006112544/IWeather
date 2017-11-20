@@ -19,9 +19,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.daobao.asus.iweather.Enty.AirBean;
-import com.daobao.asus.iweather.Enty.MultipleItem;
-import com.daobao.asus.iweather.Enty.NewWeatherBean;
+import com.daobao.asus.iweather.Bean.AirBean;
+import com.daobao.asus.iweather.Bean.MultipleItem;
+import com.daobao.asus.iweather.Bean.NewWeatherBean;
 import com.daobao.asus.iweather.R;
 import com.daobao.asus.iweather.adpter.MultipleItemQuickAdapter;
 import com.daobao.asus.iweather.net.CallBack.IError;
