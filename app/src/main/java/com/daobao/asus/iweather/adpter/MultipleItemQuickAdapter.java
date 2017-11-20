@@ -33,7 +33,7 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
 
     @Override
     protected void convert(BaseViewHolder helper, MultipleItem item) {
-        if(NetState.isNetworkAvailable(context))
+        if(NetState.isNetworkAvailable(context)&&item.IsLoadInfoSuccess)
         {
             switch (helper.getItemViewType()) {
                 case MultipleItem.NowWeatherView:

@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -49,58 +50,66 @@ public class MainFragment extends Fragment {
     @BindView(R.id.iv_erro)
     ImageView mIvError;
 
-    private AirBean mAirBean;
-    private NewWeatherBean mNewWeatherBean;
+    private AirBean mAirBean;                    //空气信息
+    private NewWeatherBean mNewWeatherBean;      //天气信息
     private View view;
-    protected boolean mIsCreateView = false;
+    protected boolean mIsCreateView = false;     //记录View是否已经被创建
+    private boolean IsLoadInfoSuccess = false;   //记录数据是否加载成功
     private MultipleItemQuickAdapter mAdapter;
     private List<MultipleItem> data;
-    private int UpdaTime = 0;
+    private int UpdataTime = 0;                    //记录天气数据和空气数据是否都加载成功
+    private static final int LOADINFO = 1;       //加载数据
+    private static final int UPDATAINFO = 2;     //更新数据
+    private static final int LOAD_FAIL = 3;      //加载数据失败
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler()
     {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (msg.what == 1) {
-                UpdaTime++;
-                if (UpdaTime == 2) {
+            if (msg.what == LOADINFO) //请求数据时调用
+            {
+                UpdataTime++;
+                if (UpdataTime == 2) {
+                    IsLoadInfoSuccess = true;
                     data = new ArrayList<>();
-                    data.add(new MultipleItem(1, mAirBean, mNewWeatherBean));
-                    data.add(new MultipleItem(2, mAirBean, mNewWeatherBean));
-                    data.add(new MultipleItem(3, mAirBean, mNewWeatherBean));
-                    data.add(new MultipleItem(4, mAirBean, mNewWeatherBean));
+                    data.add(new MultipleItem(1, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
+                    data.add(new MultipleItem(2, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
+                    data.add(new MultipleItem(3, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
+                    data.add(new MultipleItem(4, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
                     mAdapter = new MultipleItemQuickAdapter(data, getContext());
                     mAdapter.openLoadAnimation(0x00000001);
                     //不只执行一次动画
                     mAdapter.isFirstOnly(false);
                     mRecyclerView.setAdapter(mAdapter);
                     mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                    UpdaTime = 0;
+                    UpdataTime = 0;
                 }
             }
-            else if (msg.what == 2)
+            else if (msg.what == UPDATAINFO)//刷新时调用
             {
-                UpdaTime++;
-                if(UpdaTime==2) {
+                UpdataTime++;
+                if(UpdataTime==2) {
+                    IsLoadInfoSuccess = true;
                     data.clear();
-                    data.add(new MultipleItem(1, mAirBean, mNewWeatherBean));
-                    data.add(new MultipleItem(2, mAirBean, mNewWeatherBean));
-                    data.add(new MultipleItem(3, mAirBean, mNewWeatherBean));
-                    data.add(new MultipleItem(4, mAirBean, mNewWeatherBean));
+                    data.add(new MultipleItem(1, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
+                    data.add(new MultipleItem(2, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
+                    data.add(new MultipleItem(3, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
+                    data.add(new MultipleItem(4, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
                     mAdapter.notifyDataSetChanged();
                     Toast.makeText(getContext(),"刷新成功",Toast.LENGTH_SHORT).show();
                     mRefreshLayout.setRefreshing(false);
-                    UpdaTime = 0;
+                    UpdataTime = 0;
                 }
             }
-            else if(msg.what == 3)
+            else if(msg.what == LOAD_FAIL)//没有网络或信息加载失败时
             {
+                IsLoadInfoSuccess = false;
                 data = new ArrayList<>();
-                data.add(new MultipleItem(1, mAirBean, mNewWeatherBean));
-                data.add(new MultipleItem(2, mAirBean, mNewWeatherBean));
-                data.add(new MultipleItem(3, mAirBean, mNewWeatherBean));
-                data.add(new MultipleItem(4, mAirBean, mNewWeatherBean));
+                data.add(new MultipleItem(1, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
+                data.add(new MultipleItem(2, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
+                data.add(new MultipleItem(3, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
+                data.add(new MultipleItem(4, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
                 mAdapter = new MultipleItemQuickAdapter(data, getContext());
                 mAdapter.openLoadAnimation(0x00000001);
                 //不只执行一次动画
@@ -117,9 +126,9 @@ public class MainFragment extends Fragment {
             ButterKnife.bind(this, view);
             if(NetState.isNetworkAvailable(getContext()))
             {
-                initHttp(1);
+                initWeatherInfo(LOADINFO);
             }
-            else handler.sendEmptyMessage(3);
+            else handler.sendEmptyMessage(LOAD_FAIL);
             //设置刷新progressbar颜色
             mRefreshLayout.setColorSchemeColors(Color.BLUE,Color.GREEN,Color.YELLOW,Color.RED);
             //设置刷新监听
@@ -128,7 +137,7 @@ public class MainFragment extends Fragment {
                 public void onRefresh() {
                     if(NetState.isNetworkAvailable(getContext()))
                     {
-                        initHttp(2);
+                        initWeatherInfo(UPDATAINFO);
                     }
                     else
                     {
@@ -138,7 +147,7 @@ public class MainFragment extends Fragment {
                 }
             });
         }
-        //mIsCreateView = true;
+        mIsCreateView = true;
         return view;
     }
 
@@ -162,7 +171,7 @@ public class MainFragment extends Fragment {
 
     }
 
-    private void initHttp(final int msg)
+    private void initWeatherInfo(final int msg)
     {
         RestClient.builder()
                 .url("https://free-api.heweather.com/s6/air/now?parameters")
@@ -176,22 +185,32 @@ public class MainFragment extends Fragment {
                         Gson g = new Gson();
                         mAirBean = g.fromJson(response, AirBean.class);
                         handler.sendEmptyMessage(msg);
+                        initAirInfo(msg);
                     }
                 })
                 .failure(new IFailure() {
                     @Override
                     public void onFailure() {
-
+                        handler.sendEmptyMessage(LOAD_FAIL);
+                        Toast.makeText(getContext(),"请检查网络",Toast.LENGTH_SHORT).show();
+                        mRefreshLayout.setRefreshing(false);
                     }
                 })
                 .error(new IError() {
                     @Override
                     public void onError(int code, String msg) {
+                        handler.sendEmptyMessage(LOAD_FAIL);
+                        Toast.makeText(getContext(),"加载错误code"+code,Toast.LENGTH_SHORT).show();
+                        mRefreshLayout.setRefreshing(false);
 
                     }
                 })
                 .build()
                 .post();
+
+    }
+    private void initAirInfo(final int msg)
+    {
         RestClient.builder()
                 .url("https://free-api.heweather.com/s6/weather?parameters")
                 .params("location","绵阳")
@@ -209,13 +228,17 @@ public class MainFragment extends Fragment {
                 .failure(new IFailure() {
                     @Override
                     public void onFailure() {
-
+                        handler.sendEmptyMessage(LOAD_FAIL);
+                        Toast.makeText(getContext(),"请检查网络",Toast.LENGTH_SHORT).show();
+                        mRefreshLayout.setRefreshing(false);
                     }
                 })
                 .error(new IError() {
                     @Override
                     public void onError(int code, String msg) {
-
+                        handler.sendEmptyMessage(LOAD_FAIL);
+                        Toast.makeText(getContext(),"加载错误code"+code,Toast.LENGTH_SHORT).show();
+                        mRefreshLayout.setRefreshing(false);
                     }
                 })
                 .build()

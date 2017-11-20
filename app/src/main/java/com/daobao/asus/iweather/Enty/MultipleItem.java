@@ -26,14 +26,17 @@ public class MultipleItem implements MultiItemEntity {
     private int itemType;
     public NewWeatherBean mNewWeatherBean;
     public AirBean mAirBean;
+    public boolean IsLoadInfoSuccess;
 
     public MultipleItem(int itemType,
                         AirBean mAirBean,
-                        NewWeatherBean mNewWeatherBean)
+                        NewWeatherBean mNewWeatherBean,
+                        boolean IsLoadInfoSuccess)
     {
         this.itemType = itemType;
         this.mAirBean = mAirBean;
         this.mNewWeatherBean = mNewWeatherBean;
+        this.IsLoadInfoSuccess = IsLoadInfoSuccess;
     }
     @Override
     public int getItemType() {
