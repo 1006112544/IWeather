@@ -46,6 +46,6 @@ public class WeatherIconSelector {
         {
             return "light_rain";
         }
-        else return "unkonw";
+        else return "none";
     }
 }

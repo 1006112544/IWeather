@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/appbar_layout"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    app:cardElevation="10dp"
-    app:cardCornerRadius="0dp"
-    >
-    <RelativeLayout
-        android:id="@+id/main_header"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@mipmap/sun_main">
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="#0000"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:tabIndicatorColor="@android:color/white"
-            app:tabIndicatorHeight="4dp"/>
+    android:background="@mipmap/sun_main"
+    android:fitsSystemWindows="true"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabLayout"
-            android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:tabIndicatorColor="#fff"
-            app:tabTextColor="#D6D6D6"
-            app:tabSelectedTextColor="#fff"
-            app:tabIndicatorHeight="2dp"
-            />
-    </RelativeLayout>
-</android.support.v7.widget.CardView>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:gravity="top"
+        app:titleMarginTop="15dp"
+        android:layout_weight="1"
+        android:layout_height="0dp"
+        android:background="#00000000"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:tabIndicatorColor="@android:color/white"
+        app:tabIndicatorHeight="4dp"
+        />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#00000000"
+        app:tabIndicatorColor="#fff"
+        app:tabIndicatorHeight="2dp"/>
+
+</android.support.design.widget.AppBarLayout>

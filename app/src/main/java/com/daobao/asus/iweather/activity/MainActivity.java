@@ -2,6 +2,7 @@ package com.daobao.asus.iweather.activity;
 
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private MultiCityFragment mMultiCityFragment;
     private ArrayList<Fragment> fragments;
     private FragmentPagerAdapter mAdapter;
-    private RelativeLayout main_header;
+    private AppBarLayout appbar_layout;
     private SharedPreferences.Editor  editor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mViewPager = findViewById(R.id.viewPager);
         mTabLayout = findViewById(R.id.tabLayout);
         mNavView = findViewById(R.id.nav_view);
-        main_header = findViewById(R.id.main_header);
+        appbar_layout = findViewById(R.id.appbar_layout);
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mToolbar = findViewById(R.id.toolbar);
         fragments = new ArrayList<>();
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String date = mDateFormat .format(new Date());
         if(date.compareTo("07:00")<=0||date.compareTo("19:00")>=0)
         {
-            main_header.setBackgroundResource(R.mipmap.sun_main_night);
+            appbar_layout.setBackgroundResource(R.mipmap.sun_main_night);
             //获取NavigationView的headerView布局
             mNavView.getHeaderView(0).setBackgroundResource(R.mipmap.header_back_night);
         }

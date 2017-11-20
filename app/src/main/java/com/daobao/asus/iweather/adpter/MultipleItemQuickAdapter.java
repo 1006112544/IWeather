@@ -54,7 +54,7 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     helper.setText(R.id.T_pm25, "PM25:"+item.mAirBean.getHeWeather6()
                             .get(0).getAir_now_city().getPm25());
                     helper.setText(R.id.T_air, "空气质量:"+item.mAirBean.getHeWeather6()
-                            .get(0).getAir_now_city().getAqi());
+                            .get(0).getAir_now_city().getQlty());
                     break;
                 case MultipleItem.HoursWeatherView:
                     for (int i=1;i<8;i++)
@@ -82,6 +82,10 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     }
                     break;
                 case MultipleItem.SuggestionView:
+                    helper.setText(R.id.comf_brief,"舒适指数---"+item.mNewWeatherBean.getHeWeather6()
+                            .get(0).getLifestyle().get(0).getBrf());
+                    helper.setText(R.id.comf_txt,item.mNewWeatherBean.getHeWeather6()
+                            .get(0).getLifestyle().get(0).getTxt());
                     helper.setText(R.id.cloth_brief,"穿衣指数---"+item.mNewWeatherBean.getHeWeather6()
                             .get(0).getLifestyle().get(1).getBrf());
                     helper.setText(R.id.cloth_txt,item.mNewWeatherBean.getHeWeather6()
@@ -118,8 +122,9 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                         //根据名称查找控件id数值
                         int forecast_temp = context.getResources().getIdentifier("forecast_temp_" + i, "id",
                                 context.getApplicationContext().getPackageName());
-                        helper.setText(forecast_temp,"最低温度:"+item.mNewWeatherBean.getHeWeather6()
-                                .get(0).getDaily_forecast().get(i-1).getTmp_min()+"℃");
+                        helper.setText(forecast_temp,"温度:"+item.mNewWeatherBean.getHeWeather6()
+                                .get(0).getDaily_forecast().get(i-1).getTmp_min()+"℃"+"/"+item.mNewWeatherBean.getHeWeather6()
+                                .get(0).getDaily_forecast().get(i-1).getTmp_max()+"℃");
                         //根据名称查找控件id数值
                         int forecast_txt = context.getResources().getIdentifier("forecast_txt_" + i, "id",
                                 context.getApplicationContext().getPackageName());

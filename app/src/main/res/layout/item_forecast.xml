@@ -45,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:text="最低温度:13°"
+                    android:text="温度:13℃/14℃"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="5dp" />
 
@@ -95,7 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:text="最低温度:13°"
+                    android:text="温度:13℃/14℃"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="5dp" />
 
@@ -145,7 +145,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:text="最低温度:13°"
+                    android:text="温度:13℃/14℃"
                     android:layout_marginEnd="5dp"
                     android:layout_alignParentEnd="true" />
 
@@ -195,7 +195,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:text="最低温度:13°"
+                    android:text="温度:13℃/14℃"
                     android:layout_marginEnd="5dp"
                     android:layout_alignParentEnd="true" />
 
@@ -245,7 +245,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:text="最低温度:13°"
+                    android:text="温度:13℃/14℃"
                     android:layout_marginEnd="5dp"
                     android:layout_alignParentEnd="true" />
 
@@ -295,7 +295,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:text="最低温度:13°"
+                    android:text="温度:13℃/14℃"
                     android:layout_marginEnd="5dp"
                     android:layout_alignParentEnd="true" />
 
@@ -345,7 +345,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:text="最低温度:13°"
+                    android:text="温度:13℃/14℃"
                     android:layout_marginEnd="5dp"
                     android:layout_alignParentEnd="true" />
 
