@@ -4,12 +4,16 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_city"
-            android:icon="@drawable/ic_location"
+            android:icon="@mipmap/icon_menu_city"
             android:title="选择城市"/>
+        <item
+            android:id="@+id/nav_other_city"
+            android:icon="@mipmap/icon_menu_other_city"
+            android:title="输入其他城市"/>
         <item
             android:id="@+id/nav_multi_cities"
             android:title="多城市管理"
-            android:icon="@drawable/ic_multi_cities"
+            android:icon="@mipmap/icon_menu_multi_city"
             />
     </group>
 
@@ -17,11 +21,11 @@
         <menu>
             <item
                 android:id="@+id/nav_set"
-                android:icon="@drawable/ic_menu_set"
+                android:icon="@mipmap/icon_menu_setting"
                 android:title="设置"/>
             <item
                 android:id="@+id/nav_about"
-                android:icon="@drawable/ic_menu_about"
+                android:icon="@mipmap/icon_menu_about"
                 android:title="关于"/>
         </menu>
     </item>

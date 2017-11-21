@@ -25,7 +25,7 @@
                 android:id="@+id/T_weather"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="晴朗"
+                android:text="未知"
                 android:layout_gravity="center"
                 android:textSize="16sp"/>
         </LinearLayout>
@@ -41,9 +41,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
-                android:text="4℃"
+                android:text="未知"
                 android:textSize="30sp"
-                android:textColor="#000000"/>
+                android:textColor=" 	#292929"/>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
                     android:id="@+id/T_max_temperature"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="15℃"
+                    android:text="未知"
                     android:textSize="16sp"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -65,7 +65,7 @@
                     android:id="@+id/T_min_temperature"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="10℃"
+                    android:text="未知"
                     android:textSize="16sp"/>
             </LinearLayout>
             <LinearLayout
@@ -77,14 +77,14 @@
                     android:id="@+id/T_pm25"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="PM25:76"
+                    android:text="PM25:未知"
                     android:textSize="13sp"/>
                 <TextView
                     android:id="@+id/T_air"
                     android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="空气质量:良"
+                    android:text="空气质量:未知"
                     android:textSize="13sp"/>
             </LinearLayout>
         </LinearLayout>

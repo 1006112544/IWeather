@@ -9,5 +9,8 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-
+    <style name="textToolbarTitle">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#ffff</item>
+    </style>
 </resources>

@@ -46,7 +46,7 @@ import butterknife.ButterKnife;
 
 public class MainFragment extends Fragment {
     @BindView(R.id.recyclerview)
-    RecyclerView mRecyclerView;
+    public RecyclerView mRecyclerView;
     @BindView(R.id.swiprefresh)
     SwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.progressBar)
@@ -157,7 +157,6 @@ public class MainFragment extends Fragment {
         mIsCreateView = true;
         return view;
     }
-
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -165,7 +164,6 @@ public class MainFragment extends Fragment {
             lazyLoad();
         }
     }
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -173,7 +171,6 @@ public class MainFragment extends Fragment {
             lazyLoad();
         }
     }
-
     public void initView()
     {
         //设置刷新progressbar颜色
@@ -203,7 +200,7 @@ public class MainFragment extends Fragment {
     {
         RestClient.builder()
                 .url("https://free-api.heweather.com/s6/air/now?parameters")
-                .params("location","绵阳")
+                .params("location",MySharedpreference.preferences.getString("City","成都"))
                 .params("key","b844972b249244019f2afb19e1f3c889")
                 .context(getContext())
                 .success(new ISuccess() {
@@ -245,7 +242,7 @@ public class MainFragment extends Fragment {
     {
         RestClient.builder()
                 .url("https://free-api.heweather.com/s6/weather?parameters")
-                .params("location","绵阳")
+                .params("location",MySharedpreference.preferences.getString("City","成都"))
                 .params("key","b844972b249244019f2afb19e1f3c889")
                 .context(getContext())
                 .success(new ISuccess() {
@@ -312,5 +309,14 @@ public class MainFragment extends Fragment {
             return true;
         }
         return false;
+    }
+    public void UpDataUi()
+    {
+        //保存数据不是今天则需要请求数据
+        if(NetState.isNetworkAvailable(getContext()))
+        {
+            initWeatherInfo(LOADINFO);
+        }
+        else handler.sendEmptyMessage(LOAD_FAIL);
     }
 }
