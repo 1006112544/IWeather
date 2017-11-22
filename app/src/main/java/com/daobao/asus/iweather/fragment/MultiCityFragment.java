@@ -1,16 +1,39 @@
 package com.daobao.asus.iweather.fragment;
 
+import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.daobao.asus.iweather.Bean.AirBean;
+import com.daobao.asus.iweather.Bean.NewWeatherBean;
 import com.daobao.asus.iweather.R;
+import com.daobao.asus.iweather.adpter.MultiCityAdapter;
+import com.daobao.asus.iweather.net.CallBack.IError;
+import com.daobao.asus.iweather.net.CallBack.IFailure;
+import com.daobao.asus.iweather.net.CallBack.ISuccess;
+import com.daobao.asus.iweather.net.RestClient;
+import com.daobao.asus.iweather.util.MySharedpreference;
+import com.daobao.asus.iweather.util.NetState;
+import com.google.gson.Gson;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,18 +49,131 @@ public class MultiCityFragment extends Fragment {
     SwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.empty)
     LinearLayout mLayout;
-
+    @BindView(R.id.multi_text)
+    TextView mMulti_text;
+    SharedPreferences.Editor  editor;
     private View view;
+    private MultiCityAdapter adapter;
     protected boolean mIsCreateView = false;
-
+    private ArrayList<NewWeatherBean> data;
+    private int OldMultiCityNum;//记录更新UI前的城市个数
+    private int MultiCityNum;
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what)
+            {
+                case 1://没有多城市
+                    mLayout.setVisibility(View.VISIBLE);
+                    break;
+                case 2://有多城市
+                    MultiCityNum--;
+                    if(MultiCityNum==0)
+                    {
+                        adapter = new MultiCityAdapter(R.layout.item_multi_city,data,getContext());
+                        mRecyclerView.setAdapter(adapter);
+                    }
+                    break;
+                case 3://没有网络
+                    mLayout.setVisibility(View.VISIBLE);
+                    mMulti_text.setText("没有网络");
+                    break;
+                case 4://添加城市
+                    if(OldMultiCityNum==0)
+                    {
+                        adapter = new MultiCityAdapter(R.layout.item_multi_city,data,getContext());
+                        mRecyclerView.setAdapter(adapter);
+                        mLayout.setVisibility(View.GONE);
+                    }
+                    else adapter.notifyDataSetChanged();
+                    break;
+                case 5://刷新数据
+                    MultiCityNum--;
+                    if(MultiCityNum==0)
+                    {
+                        adapter.notifyDataSetChanged();
+                        mRefreshLayout.setRefreshing(false);
+                    }
+                    break;
+            }
+        }
+    };
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_multicity, container, false);
             ButterKnife.bind(this, view);
+            initView();
+            data = new ArrayList();
+            editor = MySharedpreference.getInstance(getContext());
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            MultiCityNum = MySharedpreference.preferences.getInt("MultiCityNum",0);
+            if(MultiCityNum==0)//没有更多城市
+            {
+                handler.sendEmptyMessage(1);
+            }
+            else if(JugeData())
+            {
+                for (int i=1;i<=MultiCityNum;i++)
+                {
+                    String weatherInfo = MySharedpreference.preferences.getString("MultiCityWeather"+i,null);
+                    Gson g = new Gson();
+                    data.add(g.fromJson(weatherInfo,NewWeatherBean.class));
+                    handler.sendEmptyMessage(2);
+                }
+            }
+            else
+            {
+                if(NetState.isNetworkAvailable(getContext()))
+                {
+                    for(int i=1;i<=MultiCityNum;i++)
+                    {
+                        String MultiCityName = MySharedpreference.preferences.getString("MultiCity"+i,null);
+                        initWeatherInfo(MultiCityName,2);
+                    }
+
+                }
+                else handler.sendEmptyMessage(3);//没有网络
+            }
         }
         return view;
+    }
+
+    private void initView() {
+        //设置刷新progressbar颜色
+        mRefreshLayout.setColorSchemeColors(Color.BLUE,Color.GREEN,Color.YELLOW,Color.RED);
+        //设置刷新监听
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if(NetState.isNetworkAvailable(getContext()))
+                {
+                    data.clear();//清空数据
+                    MultiCityNum = MySharedpreference.preferences.getInt("MultiCityNum",0);
+                    if(MultiCityNum==0)
+                    {
+                        handler.sendEmptyMessage(1);
+                    }
+                    else
+                    {
+                        for(int i=1;i<=MultiCityNum;i++)
+                        {
+                            String MultiCityName = MySharedpreference.preferences.getString("MultiCity"+i,null);
+                            initWeatherInfo(MultiCityName,5);
+                        }
+                    }
+                }
+                else
+                {
+                    Toast.makeText(getContext(),"请检查网络",Toast.LENGTH_SHORT).show();
+                    mRefreshLayout.setRefreshing(false);
+                }
+            }
+        });
     }
 
     @Override
@@ -58,5 +194,78 @@ public class MultiCityFragment extends Fragment {
 
     protected void lazyLoad() {
 
+    }
+
+    private void initWeatherInfo(String city, final int code)
+    {
+       if(city!=null)
+       {
+           RestClient.builder()
+                   .url("https://free-api.heweather.com/s6/weather?parameters")
+                   .params("location",city)
+                   .params("key","b844972b249244019f2afb19e1f3c889")
+                   .context(getContext())
+                   .success(new ISuccess() {
+                       @Override
+                       public void onSuccess(String response) {
+                           Log.d("cc","MultiCityWeather"+response);
+                           Gson g = new Gson();
+                           data.add(g.fromJson(response,NewWeatherBean.class));
+                           editor.putString("MultiCityWeather"+MultiCityNum,response);
+                           editor.commit();
+                           handler.sendEmptyMessage(code);
+                       }
+                   })
+                   .failure(new IFailure() {
+                       @Override
+                       public void onFailure() {
+                           Toast.makeText(getContext(),"请检查网络",Toast.LENGTH_SHORT).show();
+                           mRefreshLayout.setRefreshing(false);
+                       }
+                   })
+                   .error(new IError() {
+                       @Override
+                       public void onError(int code, String msg) {
+                           Toast.makeText(getContext(),"加载错误code"+code,Toast.LENGTH_SHORT).show();
+                           mRefreshLayout.setRefreshing(false);
+                       }
+                   })
+                   .build()
+                   .post();
+       }
+    }
+    //判断储存的数据是不是今天的
+    public boolean JugeData()
+    {
+        SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String date = mDateFormat .format(new Date());
+        String SharedDate = MySharedpreference.preferences.getString("Date",null);
+        if(SharedDate==null||!date.equals(SharedDate))
+        {
+            editor.putString("Date",date);
+            editor.commit();
+            return false;
+        }
+        else if(SharedDate.equals(SharedDate))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public void UpDataUi()
+    {
+        MultiCityNum = MySharedpreference.preferences.getInt("MultiCityNum",0);
+        OldMultiCityNum = MultiCityNum - 1;
+        if(NetState.isNetworkAvailable(getContext()))
+        {
+            if(MultiCityNum!=0)
+            {
+                String MultiCityName = MySharedpreference.preferences.getString("MultiCity"+MultiCityNum,null);
+                initWeatherInfo(MultiCityName,4);
+            }
+            else handler.sendEmptyMessage(1);//没有更多城市
+        }
+        else handler.sendEmptyMessage(3);//没有网络
     }
 }

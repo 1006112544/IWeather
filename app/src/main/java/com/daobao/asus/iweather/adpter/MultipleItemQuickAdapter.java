@@ -74,33 +74,33 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     }
                     break;
                 case MultipleItem.HoursWeatherView:
-                    try
-                    {
+
                         for (int i=1;i<8;i++)
                         {
                             // 根据名称查找控件id数值
                             int one_clock = context.getResources().getIdentifier("one_clock_"+i, "id",
                                     context.getApplicationContext().getPackageName());
-                            helper.setText(one_clock, item.mNewWeatherBean.getHeWeather6()
-                                    .get(0).getHourly().get(i-1).getTime());
+                            String time = item.mNewWeatherBean.getHeWeather6()
+                                    .get(0).getHourly().get(i-1).getTime();
+                            helper.setText(one_clock,time.substring(time.lastIndexOf(" "),time.length()));
                             // 根据名称查找控件id数值
                             int one_humidity = context.getResources().getIdentifier("one_humidity_"+i, "id",
                                     context.getApplicationContext().getPackageName());
                             helper.setText(one_humidity, item.mNewWeatherBean.getHeWeather6()
-                                    .get(0).getHourly().get(i-1).getTmp());
+                                    .get(0).getHourly().get(i-1).getHum()+"%");
                             // 根据名称查找控件id数值
                             int one_temp = context.getResources().getIdentifier("one_temp_"+i, "id",
                                     context.getApplicationContext().getPackageName());
                             helper.setText(one_temp, item.mNewWeatherBean.getHeWeather6()
-                                    .get(0).getHourly().get(i-1).getHum());
+                                    .get(0).getHourly().get(i-1).getTmp()+"℃");
                             // 根据名称查找控件id数值
                             int one_wind = context.getResources().getIdentifier("one_wind_"+i, "id",
                                     context.getApplicationContext().getPackageName());
                             helper.setText(one_wind, item.mNewWeatherBean.getHeWeather6()
                                     .get(0).getHourly().get(i-1).getWind_sc());
                         }
-                    }
-                    catch (Exception e){}
+
+
                     break;
                 case MultipleItem.SuggestionView:
                     try

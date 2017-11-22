@@ -12,7 +12,7 @@
         android:orientation="vertical">
         <LinearLayout
             android:id="@+id/weather_forecast_1"
-            android:layout_margin="5dp"
+            android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -62,7 +62,7 @@
         </LinearLayout>
         <LinearLayout
             android:id="@+id/weather_forecast_2"
-            android:layout_margin="5dp"
+            android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -112,7 +112,7 @@
         </LinearLayout>
         <LinearLayout
             android:id="@+id/weather_forecast_3"
-            android:layout_margin="5dp"
+            android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -162,7 +162,7 @@
         </LinearLayout>
         <LinearLayout
             android:id="@+id/weather_forecast_4"
-            android:layout_margin="5dp"
+            android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -212,7 +212,7 @@
         </LinearLayout>
         <LinearLayout
             android:id="@+id/weather_forecast_5"
-            android:layout_margin="5dp"
+            android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -262,7 +262,7 @@
         </LinearLayout>
         <LinearLayout
             android:id="@+id/weather_forecast_6"
-            android:layout_margin="5dp"
+            android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -312,7 +312,7 @@
         </LinearLayout>
         <LinearLayout
             android:id="@+id/weather_forecast_7"
-            android:layout_margin="5dp"
+            android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">

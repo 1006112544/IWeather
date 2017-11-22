@@ -138,7 +138,7 @@ public class MainFragment extends Fragment {
                 {
                     if(NetState.isNetworkAvailable(getContext()))
                     {
-                        initWeatherInfo(LOADINFO);
+                        initAirInfo(LOADINFO);
                     }
                     else handler.sendEmptyMessage(LOAD_FAIL);
                 }
@@ -148,7 +148,7 @@ public class MainFragment extends Fragment {
                 //保存数据不是今天则需要请求数据
                 if(NetState.isNetworkAvailable(getContext()))
                 {
-                    initWeatherInfo(LOADINFO);
+                    initAirInfo(LOADINFO);
                 }
                 else handler.sendEmptyMessage(LOAD_FAIL);
             }
@@ -181,7 +181,7 @@ public class MainFragment extends Fragment {
             public void onRefresh() {
                 if(NetState.isNetworkAvailable(getContext()))
                 {
-                    initWeatherInfo(UPDATAINFO);
+                    initAirInfo(UPDATAINFO);
                 }
                 else
                 {
@@ -196,7 +196,7 @@ public class MainFragment extends Fragment {
 
     }
 
-    private void initWeatherInfo(final int msg)
+    private void initAirInfo(final int msg)
     {
         RestClient.builder()
                 .url("https://free-api.heweather.com/s6/air/now?parameters")
@@ -211,7 +211,7 @@ public class MainFragment extends Fragment {
                         mAirBean = g.fromJson(response, AirBean.class);
                         handler.sendEmptyMessage(msg);
                         //加载空气信息
-                        initAirInfo(msg);
+                        initWeatherInfo(msg);
                         //保存天气信息
                         editor.putString("AirInfo",response);
                         editor.commit();
@@ -238,7 +238,7 @@ public class MainFragment extends Fragment {
                 .post();
 
     }
-    private void initAirInfo(final int msg)
+    private void initWeatherInfo(final int msg)
     {
         RestClient.builder()
                 .url("https://free-api.heweather.com/s6/weather?parameters")
@@ -293,12 +293,13 @@ public class MainFragment extends Fragment {
         }
         return false;
     }
+    //判断储存的数据是不是今天的
     public boolean JugeData()
     {
         SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String date = mDateFormat .format(new Date());
         String SharedDate = MySharedpreference.preferences.getString("Date",null);
-        if(SharedDate==null||!SharedDate.equals(SharedDate))
+        if(SharedDate==null||!date.equals(SharedDate))
         {
             editor.putString("Date",date);
             editor.commit();
@@ -310,6 +311,7 @@ public class MainFragment extends Fragment {
         }
         return false;
     }
+
     public void UpDataUi()
     {
         //保存数据不是今天则需要请求数据
