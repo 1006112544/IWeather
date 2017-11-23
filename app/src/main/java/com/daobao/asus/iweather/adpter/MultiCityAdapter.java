@@ -2,9 +2,7 @@ package com.daobao.asus.iweather.adpter;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.widget.Toast;
-
-import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseItemDraggableAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.daobao.asus.iweather.Bean.NewWeatherBean;
 import com.daobao.asus.iweather.R;
@@ -16,14 +14,12 @@ import java.util.List;
  * Created by db on 2017/11/22.
  */
 
-public class MultiCityAdapter extends BaseQuickAdapter<NewWeatherBean, BaseViewHolder>  {
+public class MultiCityAdapter extends BaseItemDraggableAdapter<NewWeatherBean, BaseViewHolder>  {
     private Context context;
     public MultiCityAdapter(int layoutResId, @Nullable List data,Context context) {
         super(layoutResId, data);
         this.context = context;
     }
-
-
     @Override
     protected void convert(BaseViewHolder helper, NewWeatherBean item) {
         try {

@@ -36,7 +36,7 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
 
     @Override
     protected void convert(BaseViewHolder helper, MultipleItem item) {
-        if(NetState.isNetworkAvailable(context)&&item.IsLoadInfoSuccess)
+        if(item.IsLoadInfoSuccess)
         {
             switch (helper.getItemViewType()) {
                 case MultipleItem.NowWeatherView:
@@ -74,7 +74,8 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                     }
                     break;
                 case MultipleItem.HoursWeatherView:
-
+                    try
+                    {
                         for (int i=1;i<8;i++)
                         {
                             // 根据名称查找控件id数值
@@ -99,8 +100,8 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                             helper.setText(one_wind, item.mNewWeatherBean.getHeWeather6()
                                     .get(0).getHourly().get(i-1).getWind_sc());
                         }
-
-
+                    }
+                    catch (Exception e){}
                     break;
                 case MultipleItem.SuggestionView:
                     try

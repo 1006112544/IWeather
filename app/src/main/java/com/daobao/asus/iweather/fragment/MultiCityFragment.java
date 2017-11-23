@@ -2,6 +2,7 @@ package com.daobao.asus.iweather.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
+import com.chad.library.adapter.base.listener.OnItemDragListener;
+import com.chad.library.adapter.base.listener.OnItemSwipeListener;
 import com.daobao.asus.iweather.Bean.AirBean;
 import com.daobao.asus.iweather.Bean.NewWeatherBean;
 import com.daobao.asus.iweather.R;
@@ -53,6 +58,7 @@ public class MultiCityFragment extends Fragment {
     TextView mMulti_text;
     SharedPreferences.Editor  editor;
     private View view;
+    private NewWeatherBean mNewWeatherBean;
     private MultiCityAdapter adapter;
     protected boolean mIsCreateView = false;
     private ArrayList<NewWeatherBean> data;
@@ -75,11 +81,11 @@ public class MultiCityFragment extends Fragment {
                     {
                         adapter = new MultiCityAdapter(R.layout.item_multi_city,data,getContext());
                         mRecyclerView.setAdapter(adapter);
+                        AddSwipeListener();
                     }
                     break;
                 case 3://没有网络
-                    mLayout.setVisibility(View.VISIBLE);
-                    mMulti_text.setText("没有网络");
+                    Toast.makeText(getContext(),"没有网络",Toast.LENGTH_SHORT).show();
                     break;
                 case 4://添加城市
                     if(OldMultiCityNum==0)
@@ -87,6 +93,7 @@ public class MultiCityFragment extends Fragment {
                         adapter = new MultiCityAdapter(R.layout.item_multi_city,data,getContext());
                         mRecyclerView.setAdapter(adapter);
                         mLayout.setVisibility(View.GONE);
+                        AddSwipeListener();
                     }
                     else adapter.notifyDataSetChanged();
                     break;
@@ -101,6 +108,35 @@ public class MultiCityFragment extends Fragment {
             }
         }
     };
+
+    private void AddSwipeListener() {
+        ItemDragAndSwipeCallback itemDragAndSwipeCallback = new ItemDragAndSwipeCallback(adapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemDragAndSwipeCallback);
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
+        adapter.enableSwipeItem();
+        adapter.setOnItemSwipeListener(new OnItemSwipeListener() {
+            @Override
+            public void onItemSwipeStart(RecyclerView.ViewHolder viewHolder, int pos) {
+            }
+            @Override
+            public void clearView(RecyclerView.ViewHolder viewHolder, int pos) {
+                int CityNum  = MySharedpreference.preferences.getInt("MultiCityNum",0);
+                CityNum--;
+                editor.putInt("MultiCityNum",CityNum);
+                editor.remove("MultiCityWeather"+MultiCityNum);
+                editor.remove("MultiCity"+MultiCityNum);
+                editor.commit();
+            }
+            @Override
+            public void onItemSwiped(RecyclerView.ViewHolder viewHolder, int pos) {
+
+            }
+            @Override
+            public void onItemSwipeMoving(Canvas canvas, RecyclerView.ViewHolder viewHolder, float dX, float dY, boolean isCurrentlyActive) {
+            }
+        });
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -210,10 +246,25 @@ public class MultiCityFragment extends Fragment {
                        public void onSuccess(String response) {
                            Log.d("cc","MultiCityWeather"+response);
                            Gson g = new Gson();
-                           data.add(g.fromJson(response,NewWeatherBean.class));
-                           editor.putString("MultiCityWeather"+MultiCityNum,response);
-                           editor.commit();
-                           handler.sendEmptyMessage(code);
+                           mNewWeatherBean = g.fromJson(response,NewWeatherBean.class);
+                           if(mNewWeatherBean.getHeWeather6().get(0).getStatus().equals("ok"))
+                           {
+                               data.add(mNewWeatherBean);
+                               editor.putString("MultiCityWeather"+MultiCityNum,response);
+                               editor.commit();
+                               handler.sendEmptyMessage(code);
+                           }
+                           else
+                           {
+                               int CityNum  = MySharedpreference.preferences.getInt("MultiCityNum",0);
+                               CityNum--;
+                               editor.putInt("MultiCityNum",CityNum);
+                               editor.remove("MultiCityWeather"+MultiCityNum);
+                               editor.remove("MultiCity"+MultiCityNum);
+                               editor.commit();
+                               handler.sendEmptyMessage(code);
+                           }
+
                        }
                    })
                    .failure(new IFailure() {

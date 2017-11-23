@@ -2,7 +2,9 @@ package com.daobao.asus.iweather.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -22,9 +24,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
-
 import com.daobao.asus.iweather.R;
 import com.daobao.asus.iweather.adpter.MyFragmentPagerAdapter;
 import com.daobao.asus.iweather.fragment.MainFragment;
@@ -32,13 +32,9 @@ import com.daobao.asus.iweather.fragment.MultiCityFragment;
 import com.daobao.asus.iweather.util.MySharedpreference;
 import com.lljjcoder.citylist.CityListSelectActivity;
 import com.lljjcoder.citylist.bean.CityInfoBean;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
-import butterknife.BindView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,FloatingActionButton.OnClickListener{
     private ViewPager mViewPager;

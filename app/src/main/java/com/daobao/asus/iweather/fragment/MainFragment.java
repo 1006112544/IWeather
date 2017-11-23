@@ -119,8 +119,13 @@ public class MainFragment extends Fragment {
                 mAdapter.openLoadAnimation(0x00000001);
                 //不只执行一次动画
                 mAdapter.isFirstOnly(false);
+                if(mRefreshLayout.isRefreshing())
+                {
+                    mRefreshLayout.setRefreshing(false);
+                }
                 mRecyclerView.setAdapter(mAdapter);
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                UpdataTime = 0;
             }
         }
     };
@@ -134,14 +139,7 @@ public class MainFragment extends Fragment {
             if(JugeData())
             {
                 //保存数据是今天则需要取出保存的数据
-                if(!getDataFromLocal())
-                {
-                    if(NetState.isNetworkAvailable(getContext()))
-                    {
-                        initAirInfo(LOADINFO);
-                    }
-                    else handler.sendEmptyMessage(LOAD_FAIL);
-                }
+                getDataFromLocal();
             }
             else
             {
@@ -209,12 +207,16 @@ public class MainFragment extends Fragment {
                         Log.d("cc", "air: "+response);
                         Gson g = new Gson();
                         mAirBean = g.fromJson(response, AirBean.class);
-                        handler.sendEmptyMessage(msg);
-                        //加载空气信息
-                        initWeatherInfo(msg);
-                        //保存天气信息
-                        editor.putString("AirInfo",response);
-                        editor.commit();
+                        if(mAirBean.getHeWeather6().get(0).getStatus().equals("ok"))
+                        {
+                            handler.sendEmptyMessage(msg);
+                            //加载空气信息
+                            initWeatherInfo(msg);
+                            //保存天气信息
+                            editor.putString("AirInfo",response);
+                            editor.commit();
+                        }
+                        else handler.sendEmptyMessage(LOAD_FAIL);
                     }
                 })
                 .failure(new IFailure() {
@@ -251,10 +253,14 @@ public class MainFragment extends Fragment {
                         Log.d("cc", "sum: "+response);
                         Gson g = new Gson();
                         mNewWeatherBean= g.fromJson(response, NewWeatherBean.class);
-                        handler.sendEmptyMessage(msg);
-                        //保存空气信息
-                        editor.putString("WeatherInfo",response);
-                        editor.commit();
+                        if(mNewWeatherBean.getHeWeather6().get(0).getStatus().equals("ok"))
+                        {
+                            handler.sendEmptyMessage(msg);
+                            //保存空气信息
+                            editor.putString("WeatherInfo",response);
+                            editor.commit();
+                        }
+                        else handler.sendEmptyMessage(LOAD_FAIL);
                     }
                 })
                 .failure(new IFailure() {
@@ -277,21 +283,18 @@ public class MainFragment extends Fragment {
                 .post();
     }
 
-    public boolean getDataFromLocal()
+    public void getDataFromLocal()
     {
         String WeatherInfo = MySharedpreference.preferences.getString("WeatherInfo",null);
         String AirInfo = MySharedpreference.preferences.getString("AirInfo",null);
-        if(WeatherInfo!=null && AirInfo!=null)
-        {
-            Gson g = new Gson();
-            mNewWeatherBean = g.fromJson(WeatherInfo,NewWeatherBean.class);
-            mAirBean = g.fromJson(AirInfo, AirBean.class);
-            //因为本地天气和空气信息是同时获取的所以先将获取次数加一
-            UpdataTime++;
-            handler.sendEmptyMessage(LOADINFO);
-            return true;
-        }
-        return false;
+        Gson g = new Gson();
+        Log.d("cc", "handleMessage: "+WeatherInfo);
+        Log.d("cc", "handleMessage: "+AirInfo);
+        mNewWeatherBean = g.fromJson(WeatherInfo,NewWeatherBean.class);
+        mAirBean = g.fromJson(AirInfo, AirBean.class);
+        //因为本地天气和空气信息是同时获取的所以先将获取次数加一
+        UpdataTime++;
+        handler.sendEmptyMessage(LOADINFO);
     }
     //判断储存的数据是不是今天的
     public boolean JugeData()
@@ -314,10 +317,10 @@ public class MainFragment extends Fragment {
 
     public void UpDataUi()
     {
-        //保存数据不是今天则需要请求数据
         if(NetState.isNetworkAvailable(getContext()))
         {
-            initWeatherInfo(LOADINFO);
+            initAirInfo(LOADINFO);
+
         }
         else handler.sendEmptyMessage(LOAD_FAIL);
     }
