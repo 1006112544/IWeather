@@ -189,9 +189,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 //获取到城市名称，经纬度值后可自行使用...
                 int MultiCityNum = MySharedpreference.preferences.getInt("MultiCityNum",0);
+                //获取主页城市
+                String mainCity = MySharedpreference.preferences.getString("City","成都");
                 if(MultiCityNum>=3)
                 {
                     Toast.makeText(MainActivity.this,"多城市数量不能超过3个",Toast.LENGTH_SHORT).show();
+                }
+                else if(mainCity.contains(cityName)||cityName.contains(mainCity))
+                {
+                    Toast.makeText(MainActivity.this,"该城市已经存在",Toast.LENGTH_SHORT).show();
                 }
                 else if(MultiCityNum!=0)
                 {

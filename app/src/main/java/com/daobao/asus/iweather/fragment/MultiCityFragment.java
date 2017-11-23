@@ -120,17 +120,17 @@ public class MultiCityFragment extends Fragment {
             }
             @Override
             public void clearView(RecyclerView.ViewHolder viewHolder, int pos) {
+            }
+            @Override
+            public void onItemSwiped(RecyclerView.ViewHolder viewHolder, int pos) {
                 int CityNum  = MySharedpreference.preferences.getInt("MultiCityNum",0);
                 CityNum--;
                 editor.putInt("MultiCityNum",CityNum);
                 editor.remove("MultiCityWeather"+MultiCityNum);
                 editor.remove("MultiCity"+MultiCityNum);
                 editor.commit();
+                Log.d("cc", "clearView: ");
                 if(CityNum==0) mLayout.setVisibility(View.VISIBLE);//显示没有城市
-            }
-            @Override
-            public void onItemSwiped(RecyclerView.ViewHolder viewHolder, int pos) {
-
             }
             @Override
             public void onItemSwipeMoving(Canvas canvas, RecyclerView.ViewHolder viewHolder, float dX, float dY, boolean isCurrentlyActive) {
