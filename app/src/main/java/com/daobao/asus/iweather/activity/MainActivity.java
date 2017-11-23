@@ -2,10 +2,7 @@ package com.daobao.asus.iweather.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -18,7 +15,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.TextPaint;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.MenuItem;
@@ -30,10 +26,9 @@ import com.daobao.asus.iweather.adpter.MyFragmentPagerAdapter;
 import com.daobao.asus.iweather.fragment.MainFragment;
 import com.daobao.asus.iweather.fragment.MultiCityFragment;
 import com.daobao.asus.iweather.util.MySharedpreference;
-import com.lljjcoder.citylist.CityListSelectActivity;
-import com.lljjcoder.citylist.bean.CityInfoBean;
 import java.util.ArrayList;
 import java.util.Calendar;
+
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,FloatingActionButton.OnClickListener{
@@ -140,9 +135,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId())
         {
             case R.id.nav_city:
-                //首先跳转到列表页面，通过startActivityForResult实现页面跳转传值
-                Intent intent = new Intent(MainActivity.this, CityListSelectActivity.class);
-                startActivityForResult(intent, CityListSelectActivity.CITY_SELECT_RESULT_FRAG);
+                Intent intent = new Intent(MainActivity.this, CitySelectorActivity.class);
+                startActivityForResult(intent,CitySelectorActivity.SelectorSuccessFromMenu);
                 break;
             case R.id.nav_multi_cities:
                 //关闭侧滑栏
@@ -156,25 +150,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CityListSelectActivity.CITY_SELECT_RESULT_FRAG) {
-            //来自于选择城市的回调
+        if (requestCode == CitySelectorActivity.SelectorSuccessFromMenu) {
+            //来自于菜单选择城市的回调
             if (resultCode == RESULT_OK) {
                 if (data == null) {
                     return;
                 }
                 Bundle bundle = data.getExtras();
 
-                CityInfoBean cityInfoBean = (CityInfoBean) bundle.getParcelable("cityinfo");
-
-                if (null == cityInfoBean)
-                    return;
-
                 //城市名称
-                String cityName = cityInfoBean.getName();
-                //纬度
-                String latitude = cityInfoBean.getLongitude();
-                //经度
-                String longitude = cityInfoBean.getLatitude();
+                String cityName = bundle.getString("CityName");
 
                 //获取到城市名称，经纬度值后可自行使用...
                 //关闭侧滑栏
@@ -191,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(MainActivity.this,cityName,Toast.LENGTH_SHORT).show();
             }
         }
-        else
+        else if(requestCode == CitySelectorActivity.SelectorSuccessFromMultiCity)
         {
             //来自于多城市添加的回调
             if (resultCode == RESULT_OK) {
@@ -199,18 +184,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     return;
                 }
                 Bundle bundle = data.getExtras();
-
-                CityInfoBean cityInfoBean = (CityInfoBean) bundle.getParcelable("cityinfo");
-
-                if (null == cityInfoBean)
-                    return;
-
                 //城市名称
-                String cityName = cityInfoBean.getName();
-                //纬度
-                String latitude = cityInfoBean.getLongitude();
-                //经度
-                String longitude = cityInfoBean.getLatitude();
+                String cityName = bundle.getString("CityName");
 
                 //获取到城市名称，经纬度值后可自行使用...
                 int MultiCityNum = MySharedpreference.preferences.getInt("MultiCityNum",0);
@@ -253,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onClick(View view) {
         //首先跳转到列表页面，通过startActivityForResult实现页面跳转传值
-        Intent intent = new Intent(MainActivity.this, CityListSelectActivity.class);
-        startActivityForResult(intent, 1);
+        Intent intent = new Intent(MainActivity.this, CitySelectorActivity.class);
+        startActivityForResult(intent,CitySelectorActivity.SelectorSuccessFromMultiCity);
     }
 }

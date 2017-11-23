@@ -44,6 +44,4 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.2'
     //BRVAH
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
-    //cityPicker
-    compile 'liji.library.dev:citypickerview:2.1.2'
 }

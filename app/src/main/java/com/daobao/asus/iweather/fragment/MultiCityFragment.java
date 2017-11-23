@@ -126,6 +126,7 @@ public class MultiCityFragment extends Fragment {
                 editor.remove("MultiCityWeather"+MultiCityNum);
                 editor.remove("MultiCity"+MultiCityNum);
                 editor.commit();
+                if(CityNum==0) mLayout.setVisibility(View.VISIBLE);//显示没有城市
             }
             @Override
             public void onItemSwiped(RecyclerView.ViewHolder viewHolder, int pos) {
@@ -262,7 +263,7 @@ public class MultiCityFragment extends Fragment {
                                editor.remove("MultiCityWeather"+MultiCityNum);
                                editor.remove("MultiCity"+MultiCityNum);
                                editor.commit();
-                               handler.sendEmptyMessage(code);
+                               if(CityNum==0) mLayout.setVisibility(View.VISIBLE);//显示没有城市
                            }
 
                        }
