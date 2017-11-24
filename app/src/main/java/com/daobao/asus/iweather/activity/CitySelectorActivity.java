@@ -122,6 +122,7 @@ public class CitySelectorActivity extends AppCompatActivity {
             quit();
         } else {
             queryProvinces();
+            CityList.clear();
             mRecyclerView.smoothScrollToPosition(0);
             mCollapsingToolbarLayout.setTitle("选择省份");
         }

@@ -23,6 +23,7 @@ import com.daobao.asus.iweather.Bean.AirBean;
 import com.daobao.asus.iweather.Bean.MultipleItem;
 import com.daobao.asus.iweather.Bean.NewWeatherBean;
 import com.daobao.asus.iweather.R;
+import com.daobao.asus.iweather.activity.MainActivity;
 import com.daobao.asus.iweather.adpter.MultipleItemQuickAdapter;
 import com.daobao.asus.iweather.net.CallBack.IError;
 import com.daobao.asus.iweather.net.CallBack.IFailure;
@@ -44,6 +45,7 @@ import butterknife.ButterKnife;
  * Created by db on 2017/11/17.
  */
 
+@SuppressLint("ValidFragment")
 public class MainFragment extends Fragment {
     @BindView(R.id.recyclerview)
     public RecyclerView mRecyclerView;
@@ -65,7 +67,16 @@ public class MainFragment extends Fragment {
     private static final int LOADINFO = 1;       //加载数据
     private static final int UPDATAINFO = 2;     //更新数据
     private static final int LOAD_FAIL = 3;      //加载数据失败
+    private InitInfoListener mInitInfoListener;  //加载信息成功的监听
+    private String OldCity;                      //记录选择城市前的城市名
+    private String CurrentCityName;              //记录当前城市名
     SharedPreferences.Editor  editor;
+
+    public interface InitInfoListener
+    {
+        void InitSuccessed(String cityName);
+    }
+
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler()
     {
@@ -88,6 +99,7 @@ public class MainFragment extends Fragment {
                     mAdapter.isFirstOnly(false);
                     mRecyclerView.setAdapter(mAdapter);
                     mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    mInitInfoListener.InitSuccessed(CurrentCityName);
                     UpdataTime = 0;
                 }
             }
@@ -104,31 +116,58 @@ public class MainFragment extends Fragment {
                     mAdapter.notifyDataSetChanged();
                     Toast.makeText(getContext(),"刷新成功",Toast.LENGTH_SHORT).show();
                     mRefreshLayout.setRefreshing(false);
+                    mInitInfoListener.InitSuccessed(CurrentCityName);
                     UpdataTime = 0;
                 }
             }
-            else if(msg.what == LOAD_FAIL)//没有网络或信息加载失败时
+            else if(msg.what == LOAD_FAIL)//没有网络或数据加载失败
             {
                 IsLoadInfoSuccess = false;
-                data = new ArrayList<>();
-                data.add(new MultipleItem(1, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
-                data.add(new MultipleItem(2, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
-                data.add(new MultipleItem(3, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
-                data.add(new MultipleItem(4, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
-                mAdapter = new MultipleItemQuickAdapter(data, getContext());
-                mAdapter.openLoadAnimation(0x00000001);
-                //不只执行一次动画
-                mAdapter.isFirstOnly(false);
-                if(mRefreshLayout.isRefreshing())
+                if(mAdapter == null)
+                {
+                    data = new ArrayList<>();
+                    data.add(new MultipleItem(1, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
+                    data.add(new MultipleItem(2, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
+                    data.add(new MultipleItem(3, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
+                    data.add(new MultipleItem(4, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
+                    mAdapter = new MultipleItemQuickAdapter(data, getContext());
+                    mAdapter.openLoadAnimation(0x00000001);
+                    //不只执行一次动画
+                    mAdapter.isFirstOnly(false);
+                    if(mRefreshLayout.isRefreshing())
+                    {
+                        mRefreshLayout.setRefreshing(false);
+                    }
+                    mRecyclerView.setAdapter(mAdapter);
+                    mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                }
+                else
                 {
                     mRefreshLayout.setRefreshing(false);
+                    Toast.makeText(getContext(),"该地区不可加载",Toast.LENGTH_SHORT).show();
+                    if(OldCity!=null)
+                    {
+                        CurrentCityName = OldCity;
+                        editor.putString("City",CurrentCityName);
+                        editor.commit();
+                    }
+                    else
+                    {
+                        CurrentCityName = "成都";
+                        editor.putString("City",CurrentCityName);
+                        editor.commit();
+                    }
                 }
-                mRecyclerView.setAdapter(mAdapter);
-                mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 UpdataTime = 0;
             }
         }
     };
+
+    @SuppressLint("ValidFragment")
+    public MainFragment (InitInfoListener mInitInfoListener)
+    {
+        this.mInitInfoListener = mInitInfoListener;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (view == null) {
@@ -136,6 +175,7 @@ public class MainFragment extends Fragment {
             ButterKnife.bind(this, view);
             initView();
             editor = MySharedpreference.getInstance(getContext());
+            CurrentCityName = MySharedpreference.preferences.getString("City","成都");
             if(JugeData())
             {
                 //保存数据是今天则需要取出保存的数据
@@ -196,9 +236,10 @@ public class MainFragment extends Fragment {
 
     private void initAirInfo(final int msg)
     {
+        CurrentCityName = MySharedpreference.preferences.getString("City","成都");
         RestClient.builder()
                 .url("https://free-api.heweather.com/s6/air/now?parameters")
-                .params("location",MySharedpreference.preferences.getString("City","成都"))
+                .params("location",CurrentCityName)
                 .params("key","b844972b249244019f2afb19e1f3c889")
                 .context(getContext())
                 .success(new ISuccess() {
@@ -207,6 +248,7 @@ public class MainFragment extends Fragment {
                         Log.d("cc", "air: "+response);
                         Gson g = new Gson();
                         mAirBean = g.fromJson(response, AirBean.class);
+                        Log.d("cc", "UpDataUi: "+ mAirBean.getHeWeather6().get(0).getStatus());
                         if(mAirBean.getHeWeather6().get(0).getStatus().equals("ok"))
                         {
                             handler.sendEmptyMessage(msg);
@@ -244,7 +286,7 @@ public class MainFragment extends Fragment {
     {
         RestClient.builder()
                 .url("https://free-api.heweather.com/s6/weather?parameters")
-                .params("location",MySharedpreference.preferences.getString("City","成都"))
+                .params("location",CurrentCityName)
                 .params("key","b844972b249244019f2afb19e1f3c889")
                 .context(getContext())
                 .success(new ISuccess() {
@@ -315,12 +357,12 @@ public class MainFragment extends Fragment {
         return false;
     }
 
-    public void UpDataUi()
+    public void UpDataUi(String OldCity)
     {
+        this.OldCity = OldCity;
         if(NetState.isNetworkAvailable(getContext()))
         {
             initAirInfo(LOADINFO);
-
         }
         else handler.sendEmptyMessage(LOAD_FAIL);
     }

@@ -64,6 +64,11 @@ public class MultiCityFragment extends Fragment {
     private ArrayList<NewWeatherBean> data;
     private int OldMultiCityNum;//记录更新UI前的城市个数
     private int MultiCityNum;
+    private final int NO_MORE_CITIS=1;
+    private final int HAVE_MORE_CITIS=2;
+    private final int NO_INTERNET=3;
+    private final int ADD_CITY=4;
+    private final int UPDATA=5;
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler()
     {
@@ -72,10 +77,10 @@ public class MultiCityFragment extends Fragment {
             super.handleMessage(msg);
             switch (msg.what)
             {
-                case 1://没有多城市
+                case NO_MORE_CITIS://没有多城市
                     mLayout.setVisibility(View.VISIBLE);
                     break;
-                case 2://有多城市
+                case HAVE_MORE_CITIS://有多城市
                     MultiCityNum--;
                     if(MultiCityNum==0)
                     {
@@ -84,10 +89,10 @@ public class MultiCityFragment extends Fragment {
                         AddSwipeListener();
                     }
                     break;
-                case 3://没有网络
+                case NO_INTERNET://没有网络
                     Toast.makeText(getContext(),"没有网络",Toast.LENGTH_SHORT).show();
                     break;
-                case 4://添加城市
+                case ADD_CITY://添加城市
                     if(OldMultiCityNum==0)
                     {
                         adapter = new MultiCityAdapter(R.layout.item_multi_city,data,getContext());
@@ -97,7 +102,7 @@ public class MultiCityFragment extends Fragment {
                     }
                     else adapter.notifyDataSetChanged();
                     break;
-                case 5://刷新数据
+                case UPDATA://刷新数据
                     MultiCityNum--;
                     if(MultiCityNum==0)
                     {
@@ -151,7 +156,7 @@ public class MultiCityFragment extends Fragment {
             MultiCityNum = MySharedpreference.preferences.getInt("MultiCityNum",0);
             if(MultiCityNum==0)//没有更多城市
             {
-                handler.sendEmptyMessage(1);
+                handler.sendEmptyMessage(NO_MORE_CITIS);
             }
             else if(JugeData())
             {
@@ -160,7 +165,7 @@ public class MultiCityFragment extends Fragment {
                     String weatherInfo = MySharedpreference.preferences.getString("MultiCityWeather"+i,null);
                     Gson g = new Gson();
                     data.add(g.fromJson(weatherInfo,NewWeatherBean.class));
-                    handler.sendEmptyMessage(2);
+                    handler.sendEmptyMessage(HAVE_MORE_CITIS);
                 }
             }
             else
@@ -170,11 +175,11 @@ public class MultiCityFragment extends Fragment {
                     for(int i=1;i<=MultiCityNum;i++)
                     {
                         String MultiCityName = MySharedpreference.preferences.getString("MultiCity"+i,null);
-                        initWeatherInfo(MultiCityName,2);
+                        initWeatherInfo(MultiCityName,HAVE_MORE_CITIS);
                     }
 
                 }
-                else handler.sendEmptyMessage(3);//没有网络
+                else handler.sendEmptyMessage(NO_INTERNET);//没有网络
             }
         }
         return view;
@@ -193,14 +198,15 @@ public class MultiCityFragment extends Fragment {
                     MultiCityNum = MySharedpreference.preferences.getInt("MultiCityNum",0);
                     if(MultiCityNum==0)
                     {
-                        handler.sendEmptyMessage(1);
+                        handler.sendEmptyMessage(NO_MORE_CITIS);
+                        mRefreshLayout.setRefreshing(false);
                     }
                     else
                     {
                         for(int i=1;i<=MultiCityNum;i++)
                         {
                             String MultiCityName = MySharedpreference.preferences.getString("MultiCity"+i,null);
-                            initWeatherInfo(MultiCityName,5);
+                            initWeatherInfo(MultiCityName,UPDATA);
                         }
                     }
                 }
@@ -314,10 +320,10 @@ public class MultiCityFragment extends Fragment {
             if(MultiCityNum!=0)
             {
                 String MultiCityName = MySharedpreference.preferences.getString("MultiCity"+MultiCityNum,null);
-                initWeatherInfo(MultiCityName,4);
+                initWeatherInfo(MultiCityName,ADD_CITY);
             }
-            else handler.sendEmptyMessage(1);//没有更多城市
+            else handler.sendEmptyMessage(NO_MORE_CITIS);//没有更多城市
         }
-        else handler.sendEmptyMessage(3);//没有网络
+        else handler.sendEmptyMessage(NO_INTERNET);//没有网络
     }
 }

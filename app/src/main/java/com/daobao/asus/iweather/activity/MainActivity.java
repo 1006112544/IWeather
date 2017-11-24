@@ -21,6 +21,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.daobao.asus.iweather.Dialog.OtherCityDialog;
 import com.daobao.asus.iweather.R;
 import com.daobao.asus.iweather.adpter.MyFragmentPagerAdapter;
 import com.daobao.asus.iweather.fragment.MainFragment;
@@ -68,8 +70,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mFab.setOnClickListener(this);
         fragments = new ArrayList<>();
         setSupportActionBar(mToolbar);
+        mMainFragment = new MainFragment(new MainFragment.InitInfoListener() {
+            @Override
+            public void InitSuccessed(String cityName) {
+                //修改标题
+                toolbar_layout.setTitle(cityName);
+            }
+        });
         toolbar_layout.setTitle(MySharedpreference.preferences.getString("City","成都"));
-        mMainFragment = new MainFragment();
+        Log.d("cc", "initView: "+MySharedpreference.preferences.getString("City","成都"));
         mMultiCityFragment = new MultiCityFragment();
         fragments.add(mMainFragment);
         fragments.add(mMultiCityFragment);
@@ -138,6 +147,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent intent = new Intent(MainActivity.this, CitySelectorActivity.class);
                 startActivityForResult(intent,CitySelectorActivity.SelectorSuccessFromMenu);
                 break;
+            case R.id.nav_other_city:
+                mDrawerLayout.closeDrawer(mNavView);
+                new OtherCityDialog(MainActivity.this, new OtherCityDialog.MyDialogListenner() {
+                    @Override
+                    public void ClickedSure(String cityName) {
+                        UpdataViewForMain(cityName);
+                    }
+                }).show();
+                break;
             case R.id.nav_multi_cities:
                 //关闭侧滑栏
                 mDrawerLayout.closeDrawer(mNavView);
@@ -161,19 +179,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //城市名称
                 String cityName = bundle.getString("CityName");
 
-                //获取到城市名称，经纬度值后可自行使用...
-                //关闭侧滑栏
-                mDrawerLayout.closeDrawer(mNavView);
-                //保存城市
-                editor.putString("City",cityName);
-                editor.commit();
-                //修改标题
-                toolbar_layout.setTitle(cityName);
-                //更新数据
-                mMainFragment.UpDataUi();
-                //RecyclerView回到顶部
-                mMainFragment.mRecyclerView.smoothScrollToPosition(0);
-                Toast.makeText(MainActivity.this,cityName,Toast.LENGTH_SHORT).show();
+                //获取到城市名称后可自行使用...
+                UpdataViewForMain(cityName);
             }
         }
         else if(requestCode == CitySelectorActivity.SelectorSuccessFromMultiCity)
@@ -187,46 +194,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //城市名称
                 String cityName = bundle.getString("CityName");
 
-                //获取到城市名称，经纬度值后可自行使用...
-                int MultiCityNum = MySharedpreference.preferences.getInt("MultiCityNum",0);
-                //获取主页城市
-                String mainCity = MySharedpreference.preferences.getString("City","成都");
-                if(MultiCityNum>=3)
-                {
-                    Toast.makeText(MainActivity.this,"多城市数量不能超过3个",Toast.LENGTH_SHORT).show();
-                }
-                else if(mainCity.contains(cityName)||cityName.contains(mainCity))
-                {
-                    Toast.makeText(MainActivity.this,"该城市已经存在",Toast.LENGTH_SHORT).show();
-                }
-                else if(MultiCityNum!=0)
-                {
-                    int i;
-                    for(i=1;i<=MultiCityNum;i++)
-                    {
-                        if(cityName.equals(MySharedpreference.preferences.getString("MultiCity"+i,null)))
-                        {
-                            Toast.makeText(MainActivity.this,"该城市已经存在",Toast.LENGTH_SHORT).show();
-                            break;
-                        }
-                    }
-                    if(i>MultiCityNum)//没有查找到重名城市
-                    {
-                        MultiCityNum++;
-                        editor.putString("MultiCity"+MultiCityNum,cityName);
-                        editor.putInt("MultiCityNum",MultiCityNum);
-                        editor.commit();
-                        mMultiCityFragment.UpDataUi();
-                    }
-                }
-                else
-                {
-                    MultiCityNum++;
-                    editor.putString("MultiCity"+MultiCityNum,cityName);
-                    editor.putInt("MultiCityNum",MultiCityNum);
-                    editor.commit();
-                    mMultiCityFragment.UpDataUi();
-                }
+                //获取到城市名称可自行使用...
+                UpdataViewForMultiCity(cityName);
             }
         }
     }
@@ -236,5 +205,68 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //首先跳转到列表页面，通过startActivityForResult实现页面跳转传值
         Intent intent = new Intent(MainActivity.this, CitySelectorActivity.class);
         startActivityForResult(intent,CitySelectorActivity.SelectorSuccessFromMultiCity);
+    }
+
+    /**
+     * 更新主页天气页面
+     */
+    private void UpdataViewForMain(String cityName)
+    {
+        //关闭侧滑栏
+        mDrawerLayout.closeDrawer(mNavView);
+        //获取OldCity 以便新城市不可加载时恢复数据
+        String OldCity = MySharedpreference.preferences.getString("City",null);
+        //保存城市
+        editor.putString("City",cityName);
+        editor.commit();
+        //更新数据
+        mMainFragment.UpDataUi(OldCity);
+        //RecyclerView回到顶部
+        mMainFragment.mRecyclerView.smoothScrollToPosition(0);
+    }
+    /**
+     * 更新多城市管理页面
+     */
+    private void UpdataViewForMultiCity(String cityName)
+    {
+        int MultiCityNum = MySharedpreference.preferences.getInt("MultiCityNum",0);
+        //获取主页城市
+        String mainCity = MySharedpreference.preferences.getString("City","成都");
+        if(MultiCityNum>=3)
+        {
+            Toast.makeText(MainActivity.this,"多城市数量不能超过3个",Toast.LENGTH_SHORT).show();
+        }
+        else if(mainCity.contains(cityName)||cityName.contains(mainCity))
+        {
+            Toast.makeText(MainActivity.this,"该城市已经存在",Toast.LENGTH_SHORT).show();
+        }
+        else if(MultiCityNum!=0)
+        {
+            int i;
+            for(i=1;i<=MultiCityNum;i++)
+            {
+                if(cityName.equals(MySharedpreference.preferences.getString("MultiCity"+i,null)))
+                {
+                    Toast.makeText(MainActivity.this,"该城市已经存在",Toast.LENGTH_SHORT).show();
+                    break;
+                }
+            }
+            if(i>MultiCityNum)//没有查找到重名城市
+            {
+                MultiCityNum++;
+                editor.putString("MultiCity"+MultiCityNum,cityName);
+                editor.putInt("MultiCityNum",MultiCityNum);
+                editor.commit();
+                mMultiCityFragment.UpDataUi();
+            }
+        }
+        else
+        {
+            MultiCityNum++;
+            editor.putString("MultiCity"+MultiCityNum,cityName);
+            editor.putInt("MultiCityNum",MultiCityNum);
+            editor.commit();
+            mMultiCityFragment.UpDataUi();
+        }
     }
 }
