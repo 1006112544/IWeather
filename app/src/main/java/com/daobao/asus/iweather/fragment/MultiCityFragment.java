@@ -86,6 +86,9 @@ public class MultiCityFragment extends Fragment {
                     {
                         adapter = new MultiCityAdapter(R.layout.item_multi_city,data,getContext());
                         mRecyclerView.setAdapter(adapter);
+                        adapter.openLoadAnimation(Setanim(MySharedpreference.preferences.getInt("Multi_anim",0)));
+                        //不只执行一次动画
+                        adapter.isFirstOnly(false);
                         AddSwipeListener();
                     }
                     break;
@@ -97,6 +100,9 @@ public class MultiCityFragment extends Fragment {
                     {
                         adapter = new MultiCityAdapter(R.layout.item_multi_city,data,getContext());
                         mRecyclerView.setAdapter(adapter);
+                        adapter.openLoadAnimation(Setanim(MySharedpreference.preferences.getInt("Multi_anim",0)));
+                        //不只执行一次动画
+                        adapter.isFirstOnly(false);
                         mLayout.setVisibility(View.GONE);
                         AddSwipeListener();
                     }
@@ -325,5 +331,23 @@ public class MultiCityFragment extends Fragment {
             else handler.sendEmptyMessage(NO_MORE_CITIS);//没有更多城市
         }
         else handler.sendEmptyMessage(NO_INTERNET);//没有网络
+    }
+
+    private int Setanim(int modle)
+    {
+        switch (modle)
+        {
+            case 0:
+                return 0x00000001;
+            case 1:
+                return 0x00000002;
+            case 2:
+                return 0x00000003;
+            case 3:
+                return 0x00000004;
+            case 4:
+                return 0x00000005;
+        }
+        return 0x00000001;
     }
 }

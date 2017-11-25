@@ -19,6 +19,7 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -28,6 +29,8 @@ import com.daobao.asus.iweather.adpter.MyFragmentPagerAdapter;
 import com.daobao.asus.iweather.fragment.MainFragment;
 import com.daobao.asus.iweather.fragment.MultiCityFragment;
 import com.daobao.asus.iweather.util.MySharedpreference;
+import com.daobao.asus.iweather.util.NetState;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -161,6 +164,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mDrawerLayout.closeDrawer(mNavView);
                 mViewPager.setCurrentItem(1);
                 break;
+            case R.id.nav_set:
+                startActivity(new Intent(MainActivity.this,SettingActivity.class));
+                break;
         }
         return false;
     }
@@ -253,20 +259,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             if(i>MultiCityNum)//没有查找到重名城市
             {
+                if(NetState.isNetworkAvailable(getApplicationContext()))
+                {
+                    MultiCityNum++;
+                    editor.putString("MultiCity"+MultiCityNum,cityName);
+                    editor.putInt("MultiCityNum",MultiCityNum);
+                    editor.commit();
+                    mMultiCityFragment.UpDataUi();
+                }
+                else Toast.makeText(MainActivity.this,"请检查网络",Toast.LENGTH_SHORT).show();
+            }
+        }
+        else
+        {
+            if(NetState.isNetworkAvailable(getApplicationContext()))
+            {
                 MultiCityNum++;
                 editor.putString("MultiCity"+MultiCityNum,cityName);
                 editor.putInt("MultiCityNum",MultiCityNum);
                 editor.commit();
                 mMultiCityFragment.UpDataUi();
             }
-        }
-        else
-        {
-            MultiCityNum++;
-            editor.putString("MultiCity"+MultiCityNum,cityName);
-            editor.putInt("MultiCityNum",MultiCityNum);
-            editor.commit();
-            mMultiCityFragment.UpDataUi();
+            else Toast.makeText(MainActivity.this,"请检查网络",Toast.LENGTH_SHORT).show();
         }
     }
 }

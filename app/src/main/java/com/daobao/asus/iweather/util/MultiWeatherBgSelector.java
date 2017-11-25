@@ -7,7 +7,7 @@ package com.daobao.asus.iweather.util;
 public class MultiWeatherBgSelector {
     public static String MultiWeatherBgName(String data)
     {
-        if(data.equals("103"))
+        if(data.equals("103")||data.equals("102"))
         {
             return "city_sunny";
         }

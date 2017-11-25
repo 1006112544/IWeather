@@ -11,6 +11,14 @@ public class WeatherIconSelector {
         {
             return "cloudytosunny";
         }
+        else if(data.equals("102"))
+        {
+            return "few_clouds";
+        }
+        else if(data.equals("304"))
+        {
+            return "hail";
+        }
         else if(data.equals("501")||data.equals("502"))
         {
             return "fog";
@@ -27,7 +35,7 @@ public class WeatherIconSelector {
         {
             return "sunny";
         }
-        else if(data.compareTo("301")>=0&&data.compareTo("304")<=0)
+        else if(data.compareTo("301")>=0&&data.compareTo("303")<=0)
         {
             return "thunder_rain";
         }

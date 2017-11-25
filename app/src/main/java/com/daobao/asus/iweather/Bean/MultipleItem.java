@@ -20,9 +20,13 @@ public class MultipleItem implements MultiItemEntity {
      */
     public static final int SuggestionView = 3;
     /**
-     *未来三天天气预报
+     * 详细空气质量
      */
-    public static final int ForecastView = 4;
+    public static final int DetailsAirInfo = 4;
+    /**
+     *未来七天天气预报
+     */
+    public static final int ForecastView = 5;
     private int itemType;
     public NewWeatherBean mNewWeatherBean;
     public AirBean mAirBean;

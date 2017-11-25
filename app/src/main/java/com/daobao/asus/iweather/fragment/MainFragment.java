@@ -51,10 +51,6 @@ public class MainFragment extends Fragment {
     public RecyclerView mRecyclerView;
     @BindView(R.id.swiprefresh)
     SwipeRefreshLayout mRefreshLayout;
-    @BindView(R.id.progressBar)
-    ProgressBar mProgressBar;
-    @BindView(R.id.iv_erro)
-    ImageView mIvError;
 
     private AirBean mAirBean;                    //空气信息
     private NewWeatherBean mNewWeatherBean;      //天气信息
@@ -93,8 +89,9 @@ public class MainFragment extends Fragment {
                     data.add(new MultipleItem(2, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
                     data.add(new MultipleItem(3, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
                     data.add(new MultipleItem(4, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
+                    data.add(new MultipleItem(5, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
                     mAdapter = new MultipleItemQuickAdapter(data, getContext());
-                    mAdapter.openLoadAnimation(0x00000001);
+                    mAdapter.openLoadAnimation(Setanim(MySharedpreference.preferences.getInt("Main_anim",0)));
                     //不只执行一次动画
                     mAdapter.isFirstOnly(false);
                     mRecyclerView.setAdapter(mAdapter);
@@ -113,6 +110,7 @@ public class MainFragment extends Fragment {
                     data.add(new MultipleItem(2, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
                     data.add(new MultipleItem(3, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
                     data.add(new MultipleItem(4, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
+                    data.add(new MultipleItem(5, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
                     mAdapter.notifyDataSetChanged();
                     Toast.makeText(getContext(),"刷新成功",Toast.LENGTH_SHORT).show();
                     mRefreshLayout.setRefreshing(false);
@@ -130,8 +128,9 @@ public class MainFragment extends Fragment {
                     data.add(new MultipleItem(2, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
                     data.add(new MultipleItem(3, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
                     data.add(new MultipleItem(4, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
+                    data.add(new MultipleItem(5, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
                     mAdapter = new MultipleItemQuickAdapter(data, getContext());
-                    mAdapter.openLoadAnimation(0x00000001);
+                    mAdapter.openLoadAnimation(Setanim(MySharedpreference.preferences.getInt("Main_anim",0)));
                     //不只执行一次动画
                     mAdapter.isFirstOnly(false);
                     if(mRefreshLayout.isRefreshing())
@@ -248,17 +247,30 @@ public class MainFragment extends Fragment {
                         Log.d("cc", "air: "+response);
                         Gson g = new Gson();
                         mAirBean = g.fromJson(response, AirBean.class);
-                        Log.d("cc", "UpDataUi: "+ mAirBean.getHeWeather6().get(0).getStatus());
-                        if(mAirBean.getHeWeather6().get(0).getStatus().equals("ok"))
+                        try
+                        {
+                            if(mAirBean.getHeWeather6().get(0).getStatus().equals("ok"))
+                            {
+                                handler.sendEmptyMessage(msg);
+                                //加载空气信息
+                                initWeatherInfo(msg);
+                                //保存天气信息
+                                editor.putString("AirInfo",response);
+                                editor.commit();
+                            }
+                            else handler.sendEmptyMessage(LOAD_FAIL);
+                        }
+                        catch (Exception e)
                         {
                             handler.sendEmptyMessage(msg);
+                            Toast.makeText(getContext(),"该地区空气质量未知",Toast.LENGTH_SHORT).show();
                             //加载空气信息
                             initWeatherInfo(msg);
                             //保存天气信息
                             editor.putString("AirInfo",response);
                             editor.commit();
                         }
-                        else handler.sendEmptyMessage(LOAD_FAIL);
+
                     }
                 })
                 .failure(new IFailure() {
@@ -365,5 +377,22 @@ public class MainFragment extends Fragment {
             initAirInfo(LOADINFO);
         }
         else handler.sendEmptyMessage(LOAD_FAIL);
+    }
+    private int Setanim(int modle)
+    {
+        switch (modle)
+        {
+            case 0:
+                return 0x00000001;
+            case 1:
+                return 0x00000002;
+            case 2:
+                return 0x00000003;
+            case 3:
+                return 0x00000004;
+            case 4:
+                return 0x00000005;
+        }
+        return 0x00000001;
     }
 }
