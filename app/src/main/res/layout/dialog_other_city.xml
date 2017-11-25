@@ -63,6 +63,7 @@
             android:layout_marginStart="2dp"
             android:layout_toRightOf="@+id/icon_city"
             android:background="@null"
+            android:textCursorDrawable="@drawable/dialog_edittext"
             android:lines="1"
             android:padding="4dp"
             />
