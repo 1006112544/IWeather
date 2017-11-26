@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="10dp"
-    android:layout_margin="10dp">
+    android:layout_margin="10dp"
+    app:cardCornerRadius="10dp">
     <RelativeLayout
         android:id="@+id/item_multi_bg"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@mipmap/city_cloudy">
+        android:layout_height="150dp"
+        android:background="@mipmap/overcast_bg">
         <LinearLayout
             android:layout_marginTop="5dp"
             android:layout_width="wrap_content"
@@ -34,7 +34,7 @@
            android:layout_height="wrap_content"
            android:layout_marginTop="35dp"
            android:layout_marginLeft="20dp"
-           android:orientation="vertical"
+           android:orientation="horizontal"
            android:layout_marginStart="20dp">
            <ImageView
                android:id="@+id/item_multi_icon"
@@ -55,11 +55,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="40dp"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="20dp">
+            android:layout_alignParentEnd="true">
         <LinearLayout
             android:layout_marginRight="20dp"
             android:layout_width="wrap_content"
@@ -74,8 +71,8 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
                 android:text="未知"
-                android:textSize="30sp"
-                android:textColor=" 	#292929"/>
+                android:textColor="#ffff"
+                android:textSize="30sp" />
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -85,6 +82,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="未知"
+                    android:textColor="#0000AA"
                     android:textSize="16sp"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -92,12 +90,14 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:text="/"
+                    android:textColor="#0000AA"
                     android:textSize="16sp"/>
                 <TextView
                     android:id="@+id/item_multi_max_temperature"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="未知"
+                    android:textColor="#0000AA"
                     android:textSize="16sp"/>
             </LinearLayout>
         </LinearLayout>
@@ -107,7 +107,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/item_multi_fl"
@@ -115,6 +115,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
                 android:text="体感温度:未知"
+                android:textColor="#0000AA"
                 android:layout_margin="5dp"/>
             <TextView
                 android:id="@+id/item_multi_wind_dir"
@@ -122,6 +123,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
                 android:text="风向:未知"
+                android:textColor="#0000AA"
                 android:layout_margin="5dp"/>
             <TextView
                 android:id="@+id/item_multi_wind_sc"
@@ -129,6 +131,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
                 android:text="风力:未知"
+                android:textColor="#0000AA"
                 android:layout_margin="5dp"/>
             <TextView
                 android:id="@+id/item_multi_vis"
@@ -136,6 +139,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
                 android:text="能见度:未知"
+                android:textColor="#0000AA"
                 android:layout_margin="5dp"/>
         </LinearLayout>
     </RelativeLayout>

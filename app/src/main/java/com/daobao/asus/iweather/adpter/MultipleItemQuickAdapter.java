@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.daobao.asus.iweather.Bean.MultipleItem;
 import com.daobao.asus.iweather.R;
+import com.daobao.asus.iweather.util.MultiWeatherBgSelector;
 import com.daobao.asus.iweather.util.NetState;
 import com.daobao.asus.iweather.util.WeatherIconSelector;
 
@@ -43,6 +44,12 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                 case MultipleItem.NowWeatherView:
                     try
                     {
+                        String BgName = MultiWeatherBgSelector.MultiWeatherBgName(item.mNewWeatherBean
+                                .getHeWeather6().get(0).getNow().getCond_code());
+                        //根据名字查找资源id
+                        int Bg = context.getResources().getIdentifier(BgName,"mipmap",
+                                context.getApplicationContext().getPackageName());
+                        helper.setBackgroundRes(R.id.city_bg,Bg);
                         String IconName = WeatherIconSelector.WeatherIconName(item
                                 .mNewWeatherBean.getHeWeather6().get(0).getNow().getCond_code());
                         //根据名字查找资源id
