@@ -18,7 +18,6 @@ import com.daobao.asus.iweather.R;
 
 public class AboutActivity extends AppCompatActivity implements View.OnClickListener{
     private Toolbar mToolbar;
-    private Button mShareButton;
     private Button mCodeButton;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,7 +28,6 @@ public class AboutActivity extends AppCompatActivity implements View.OnClickList
 
     private void initView() {
         mToolbar = findViewById(R.id.about_toolbar);
-        mShareButton = findViewById(R.id.about_bt_share);
         mCodeButton = findViewById(R.id.about_bt_code);
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white);
@@ -40,7 +38,6 @@ public class AboutActivity extends AppCompatActivity implements View.OnClickList
             }
         });
         mCodeButton.setOnClickListener(this);
-        mShareButton.setOnClickListener(this);
     }
 
     @Override

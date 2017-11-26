@@ -8,12 +8,6 @@
     card_view:cardCornerRadius="3dp"
     card_view:cardElevation="2dp"
     android:focusable="true">
-    <ImageView
-        android:id="@+id/city_bg"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/light_rain_bg"/>
     <RelativeLayout
         android:layout_margin="10dp"
         android:layout_width="match_parent"
@@ -32,26 +26,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="未知"
-                android:textColor="#ffff"
                 android:layout_gravity="center"
                 android:textSize="16sp"/>
         </LinearLayout>
         <LinearLayout
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="10dp"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="right"
             android:orientation="vertical">
             <TextView
                 android:id="@+id/T_temperature"
-                android:layout_marginLeft="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
                 android:text="未知"
-                android:textSize="30sp"
-                android:textColor="#ffff"/>
+                android:textColor="#404040"
+                android:textSize="30sp" />
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -61,7 +56,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="未知"
-                    android:textColor="#ffff"
                     android:textSize="16sp"/>
 
                 <TextView
@@ -70,7 +64,6 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:text="/"
-                    android:textColor="#ffff"
                     android:textSize="16sp"/>
 
                 <TextView
@@ -78,7 +71,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="未知"
-                    android:textColor="#ffff"
                     android:textSize="16sp"/>
             </LinearLayout>
             <LinearLayout
@@ -91,7 +83,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="PM25:未知"
-                    android:textColor="#0000AA"
                     android:textSize="13sp"/>
                 <TextView
                     android:id="@+id/T_air"
@@ -99,7 +90,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="空气质量:未知"
-                    android:textColor="#0000AA"
                     android:textSize="13sp"/>
             </LinearLayout>
         </LinearLayout>

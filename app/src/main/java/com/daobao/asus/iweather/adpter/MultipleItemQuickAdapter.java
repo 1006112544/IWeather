@@ -44,12 +44,6 @@ public class MultipleItemQuickAdapter extends BaseMultiItemQuickAdapter<Multiple
                 case MultipleItem.NowWeatherView:
                     try
                     {
-                        String BgName = MultiWeatherBgSelector.MultiWeatherBgName(item.mNewWeatherBean
-                                .getHeWeather6().get(0).getNow().getCond_code());
-                        //根据名字查找资源id
-                        int Bg = context.getResources().getIdentifier(BgName,"mipmap",
-                                context.getApplicationContext().getPackageName());
-                        helper.setBackgroundRes(R.id.city_bg,Bg);
                         String IconName = WeatherIconSelector.WeatherIconName(item
                                 .mNewWeatherBean.getHeWeather6().get(0).getNow().getCond_code());
                         //根据名字查找资源id

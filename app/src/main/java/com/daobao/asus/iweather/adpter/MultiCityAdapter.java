@@ -34,20 +34,8 @@ public class MultiCityAdapter extends BaseItemDraggableAdapter<NewWeatherBean, B
             helper.setText(R.id.item_multi_city,item.getHeWeather6().get(0).getBasic().getLocation());
             helper.setText(R.id.item_multi_cond,item.getHeWeather6()
                     .get(0).getNow().getCond_txt());
-            helper.setText(R.id.item_multi_fl,"体感温度:"+item.getHeWeather6()
-                    .get(0).getNow().getFl()+"℃");
-            helper.setText(R.id.item_multi_wind_dir,"风向:"+item.getHeWeather6()
-                    .get(0).getNow().getWind_dir());
-            helper.setText(R.id.item_multi_wind_sc,"风力:"+item.getHeWeather6()
-                    .get(0).getNow().getWind_sc());
-            helper.setText(R.id.item_multi_vis,"能见度:"+item.getHeWeather6()
-                    .get(0).getNow().getVis()+"公里");
             helper.setText(R.id.item_multi_temperature,item.getHeWeather6()
                     .get(0).getNow().getTmp()+"℃");
-            helper.setText(R.id.item_multi_max_temperature,item.getHeWeather6()
-                    .get(0).getDaily_forecast().get(0).getTmp_max()+"℃");
-            helper.setText(R.id.item_multi_min_temperature,item.getHeWeather6()
-                    .get(0).getDaily_forecast().get(0).getTmp_min()+"℃");
             String BgName = MultiWeatherBgSelector.MultiWeatherBgName(item.getHeWeather6()
                     .get(0).getNow().getCond_code());
             //根据名字查找资源id

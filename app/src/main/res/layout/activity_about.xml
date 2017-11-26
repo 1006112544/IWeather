@@ -104,23 +104,6 @@
                     android:textColor="#6f6f6f"
                     tools:targetApi="lollipop"
                     android:layout_marginLeft="20dp" />
-                <Button
-                    android:id="@+id/about_bt_share"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:drawablePadding="12dp"
-                    android:drawableLeft="@drawable/share"
-                    android:gravity="start|center_vertical"
-                    android:paddingEnd="12dp"
-                    android:paddingStart="12dp"
-                    android:text="分享就看天气"
-                    android:textColor="#6f6f6f"
-                    tools:targetApi="lollipop"
-                    android:layout_marginLeft="20dp" />
-
             </LinearLayout>
             <View
                 android:layout_marginLeft="20dp"
