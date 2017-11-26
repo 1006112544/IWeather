@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
         toolbar_layout.setTitle(MySharedpreference.preferences.getString("City","成都"));
-        Log.d("cc", "initView: "+MySharedpreference.preferences.getString("City","成都"));
         mMultiCityFragment = new MultiCityFragment();
         fragments.add(mMainFragment);
         fragments.add(mMultiCityFragment);
@@ -166,6 +165,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_set:
                 startActivity(new Intent(MainActivity.this,SettingActivity.class));
+                break;
+            case R.id.nav_about:
+                startActivity(new Intent(MainActivity.this,AboutActivity.class));
                 break;
         }
         return false;

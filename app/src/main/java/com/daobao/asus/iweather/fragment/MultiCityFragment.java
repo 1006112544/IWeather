@@ -86,7 +86,7 @@ public class MultiCityFragment extends Fragment {
                     {
                         adapter = new MultiCityAdapter(R.layout.item_multi_city,data,getContext());
                         mRecyclerView.setAdapter(adapter);
-                        adapter.openLoadAnimation(Setanim(MySharedpreference.preferences.getInt("Multi_anim",0)));
+                        adapter.openLoadAnimation(SetAnim(MySharedpreference.preferences.getInt("Multi_anim",0)));
                         //不只执行一次动画
                         adapter.isFirstOnly(false);
                         AddSwipeListener();
@@ -100,7 +100,7 @@ public class MultiCityFragment extends Fragment {
                     {
                         adapter = new MultiCityAdapter(R.layout.item_multi_city,data,getContext());
                         mRecyclerView.setAdapter(adapter);
-                        adapter.openLoadAnimation(Setanim(MySharedpreference.preferences.getInt("Multi_anim",0)));
+                        adapter.openLoadAnimation(SetAnim(MySharedpreference.preferences.getInt("Multi_anim",0)));
                         //不只执行一次动画
                         adapter.isFirstOnly(false);
                         mLayout.setVisibility(View.GONE);
@@ -333,7 +333,7 @@ public class MultiCityFragment extends Fragment {
         else handler.sendEmptyMessage(NO_INTERNET);//没有网络
     }
 
-    private int Setanim(int modle)
+    private int SetAnim(int modle)
     {
         switch (modle)
         {

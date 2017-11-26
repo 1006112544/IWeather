@@ -35,7 +35,7 @@ public class MultiCityAdapter extends BaseItemDraggableAdapter<NewWeatherBean, B
             helper.setText(R.id.item_multi_fl,"体感温度:"+item.getHeWeather6()
                     .get(0).getNow().getFl()+"℃");
             helper.setText(R.id.item_multi_wind_dir,"风向:"+item.getHeWeather6()
-                    .get(0).getNow().getWind_dir()+"风");
+                    .get(0).getNow().getWind_dir());
             helper.setText(R.id.item_multi_wind_sc,"风力:"+item.getHeWeather6()
                     .get(0).getNow().getWind_sc());
             helper.setText(R.id.item_multi_vis,"能见度:"+item.getHeWeather6()

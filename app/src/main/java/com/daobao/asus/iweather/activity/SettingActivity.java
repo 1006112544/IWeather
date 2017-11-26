@@ -48,6 +48,7 @@ public class SettingActivity extends AppCompatActivity {
                 SettingActivity.this.onBackPressed();
             }
         });
+        getSupportActionBar().setTitle("设置");
         main_anim = MySharedpreference.preferences.getInt("Main_anim",0);
         multi_anim = MySharedpreference.preferences.getInt("Multi_anim",0);
         setSpinnerChecked(main_anim,main_spinner);

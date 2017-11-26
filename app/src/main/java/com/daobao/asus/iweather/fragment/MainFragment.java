@@ -91,7 +91,7 @@ public class MainFragment extends Fragment {
                     data.add(new MultipleItem(4, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
                     data.add(new MultipleItem(5, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
                     mAdapter = new MultipleItemQuickAdapter(data, getContext());
-                    mAdapter.openLoadAnimation(Setanim(MySharedpreference.preferences.getInt("Main_anim",0)));
+                    mAdapter.openLoadAnimation(SetAnim(MySharedpreference.preferences.getInt("Main_anim",0)));
                     //不只执行一次动画
                     mAdapter.isFirstOnly(false);
                     mRecyclerView.setAdapter(mAdapter);
@@ -130,7 +130,7 @@ public class MainFragment extends Fragment {
                     data.add(new MultipleItem(4, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
                     data.add(new MultipleItem(5, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
                     mAdapter = new MultipleItemQuickAdapter(data, getContext());
-                    mAdapter.openLoadAnimation(Setanim(MySharedpreference.preferences.getInt("Main_anim",0)));
+                    mAdapter.openLoadAnimation(SetAnim(MySharedpreference.preferences.getInt("Main_anim",0)));
                     //不只执行一次动画
                     mAdapter.isFirstOnly(false);
                     if(mRefreshLayout.isRefreshing())
@@ -273,14 +273,6 @@ public class MainFragment extends Fragment {
 
                     }
                 })
-                .failure(new IFailure() {
-                    @Override
-                    public void onFailure() {
-                        handler.sendEmptyMessage(LOAD_FAIL);
-                        Toast.makeText(getContext(),"请检查网络",Toast.LENGTH_SHORT).show();
-                        mRefreshLayout.setRefreshing(false);
-                    }
-                })
                 .error(new IError() {
                     @Override
                     public void onError(int code, String msg) {
@@ -315,14 +307,6 @@ public class MainFragment extends Fragment {
                             editor.commit();
                         }
                         else handler.sendEmptyMessage(LOAD_FAIL);
-                    }
-                })
-                .failure(new IFailure() {
-                    @Override
-                    public void onFailure() {
-                        handler.sendEmptyMessage(LOAD_FAIL);
-                        Toast.makeText(getContext(),"请检查网络",Toast.LENGTH_SHORT).show();
-                        mRefreshLayout.setRefreshing(false);
                     }
                 })
                 .error(new IError() {
@@ -378,7 +362,7 @@ public class MainFragment extends Fragment {
         }
         else handler.sendEmptyMessage(LOAD_FAIL);
     }
-    private int Setanim(int modle)
+    private int SetAnim(int modle)
     {
         switch (modle)
         {
