@@ -9,5 +9,6 @@
     <string name="app_aoubt_me">如果你很喜欢这个小应用,请在github上给我一颗star。再次感谢您对我的认同。</string>
     <string name="open_source_okhttp">• Okhttp: github.com/square/okhttp</string>
     <string name="open_source_Retrofit">• Retrofit: github.com/square/retrofit</string>
-    <string name="open_source_hefeng">• 和风天气提供数据支持</string>
+    <string name="open_source_jiukantianqi">• 就看天气界面支持</string>
+    <string name="open_source_hefeng">• 和风天气数据支持</string>
 </resources>

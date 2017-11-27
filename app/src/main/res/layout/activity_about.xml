@@ -162,6 +162,14 @@
                 android:text="@string/open_source_hefeng"
                 android:textSize="16sp"
                 android:textColor="#6f6f6f"/>
+            <TextView
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/open_source_jiukantianqi"
+                android:textSize="16sp"
+                android:textColor="#6f6f6f"/>
             <View
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp"
