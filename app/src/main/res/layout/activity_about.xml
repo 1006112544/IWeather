@@ -159,6 +159,16 @@
                 android:layout_marginRight="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColorLink="@color/about_web"
+                android:autoLink="web"
+                android:text="@string/open_source_BRVAH"
+                android:textSize="16sp"
+                android:textColor="#6f6f6f"/>
+            <TextView
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/open_source_hefeng"
                 android:textSize="16sp"
                 android:textColor="#6f6f6f"/>
