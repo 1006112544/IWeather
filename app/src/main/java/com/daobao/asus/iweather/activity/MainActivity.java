@@ -1,5 +1,6 @@
 package com.daobao.asus.iweather.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
@@ -33,7 +34,7 @@ import com.daobao.asus.iweather.util.NetState;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-
+import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,FloatingActionButton.OnClickListener{
@@ -88,32 +89,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager(),fragments);
         mViewPager.setAdapter(mAdapter);
         //判断打开程序的时间 如果是晚上或者清晨更换背景图
-        boolean is24 =  DateFormat.is24HourFormat(MainActivity.this);
-        if(is24)
+        long time=System.currentTimeMillis();
+        calendar.setTimeInMillis(time);
+        int mHour = calendar.get(Calendar.HOUR);
+        int amp = calendar.get(Calendar.AM_PM);
+        if((amp==0&&mHour<7)||(amp==1)&&mHour>=7)
         {
-            long time=System.currentTimeMillis();
-            calendar.setTimeInMillis(time);
-            int mHour = calendar.get(Calendar.HOUR);
-            if(mHour<7||mHour>=19)
-            {
-                banner.setImageResource(R.mipmap.sun_main_night);
-                //获取NavigationView的headerView布局
-                mNavView.getHeaderView(0).setBackgroundResource(R.mipmap.header_back_night);
-            }
-        }
-        else
-        {
-            long time=System.currentTimeMillis();
-            calendar.setTimeInMillis(time);
-            int mHour = calendar.get(Calendar.HOUR);
-            int amp = calendar.get(Calendar.AM_PM);
-            if((amp==0&&mHour<7)||(amp==1)&&mHour>=7)
-            {
-                //上午七点前下午七点后都需要更改背景
-                banner.setImageResource(R.mipmap.sun_main_night);
-                //获取NavigationView的headerView布局
-                mNavView.getHeaderView(0).setBackgroundResource(R.mipmap.header_back_night);
-            }
+            //上午七点前下午七点后都需要更改背景
+            banner.setImageResource(R.mipmap.sun_main_night);
+            //获取NavigationView的headerView布局
+            mNavView.getHeaderView(0).setBackgroundResource(R.mipmap.header_back_night);
         }
         mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override

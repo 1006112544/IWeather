@@ -29,7 +29,9 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 if(!IsCreatMainActivity)
                 {
+                    IsCreatMainActivity = true;
                     startActivity(new Intent(SplashActivity.this,MainActivity.class));
+                    finish();
                 }
             }
         };
@@ -39,9 +41,13 @@ public class SplashActivity extends AppCompatActivity {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        task.cancel();
-        startActivity(new Intent(SplashActivity.this,MainActivity.class));
-        IsCreatMainActivity = true;
+        if(!IsCreatMainActivity)
+        {
+            task.cancel();
+            startActivity(new Intent(SplashActivity.this,MainActivity.class));
+            IsCreatMainActivity = true;
+            finish();
+        }
         return super.onTouchEvent(event);
     }
 }

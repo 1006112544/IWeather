@@ -16,7 +16,7 @@ import com.daobao.asus.iweather.R;
 
 public class OtherCityDialog extends Dialog implements View.OnClickListener{
     public OtherCityDialog(@NonNull Context context,MyDialogListenner mListener) {
-        super(context);
+        super(context,R.style.MyDialog);
         this.mListener = mListener;
     }
     private Button mSureButton;

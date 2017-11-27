@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:layout_gravity="bottom|end"
-            android:src="@drawable/ic_add_24dp"
+            android:src="@mipmap/icon_fl"
             app:backgroundTint="#7CCD7C"/>
     </android.support.design.widget.CoordinatorLayout>
 
