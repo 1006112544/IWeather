@@ -107,5 +107,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:textSize="13sp"
-        android:text="所有设置在重启应用后生效"/>
+        android:text="动画设置在重启应用后生效"/>
 </LinearLayout>

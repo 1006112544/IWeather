@@ -34,16 +34,21 @@ public class MainApplication extends Application{
 
             @Override
             public void onActivityStarted(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityResumed(Activity activity) {
                 //判断是否隐藏所有activity的状态栏
                 if(MySharedpreference.preferences.getBoolean("Status_title",false))
                 {
                     activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                             WindowManager.LayoutParams.FLAG_FULLSCREEN);
                 }
-            }
-
-            @Override
-            public void onActivityResumed(Activity activity) {
+                else
+                {
+                    activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                }
             }
 
             @Override

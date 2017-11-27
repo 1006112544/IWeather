@@ -80,6 +80,7 @@ public class MainFragment extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            //因为和风天气11点不提供每小时天气信息 所以我们要关闭其显示
             long time=System.currentTimeMillis();
             calendar.setTimeInMillis(time);
             int mHour = calendar.get(Calendar.HOUR);
