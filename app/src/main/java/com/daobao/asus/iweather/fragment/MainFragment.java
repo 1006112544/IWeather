@@ -35,6 +35,7 @@ import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -67,7 +68,7 @@ public class MainFragment extends Fragment {
     private String OldCity;                      //记录选择城市前的城市名
     private String CurrentCityName;              //记录当前城市名
     SharedPreferences.Editor  editor;
-
+    private Calendar calendar = Calendar.getInstance();
     public interface InitInfoListener
     {
         void InitSuccessed(String cityName);
@@ -79,6 +80,10 @@ public class MainFragment extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            long time=System.currentTimeMillis();
+            calendar.setTimeInMillis(time);
+            int mHour = calendar.get(Calendar.HOUR);
+            int amp = calendar.get(Calendar.AM_PM);
             if (msg.what == LOADINFO) //请求数据或者加载本地数据时调用
             {
                 UpdataTime++;
@@ -86,7 +91,10 @@ public class MainFragment extends Fragment {
                     IsLoadInfoSuccess = true;
                     data = new ArrayList<>();
                     data.add(new MultipleItem(1, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
-                    data.add(new MultipleItem(2, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
+                    if(!(amp==1&&mHour==11))
+                    {
+                        data.add(new MultipleItem(2, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
+                    }
                     data.add(new MultipleItem(3, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
                     data.add(new MultipleItem(4, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
                     data.add(new MultipleItem(5, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
@@ -107,7 +115,10 @@ public class MainFragment extends Fragment {
                     IsLoadInfoSuccess = true;
                     data.clear();
                     data.add(new MultipleItem(1, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
-                    data.add(new MultipleItem(2, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
+                    if(!(amp==1&&mHour==11))
+                    {
+                        data.add(new MultipleItem(2, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
+                    }
                     data.add(new MultipleItem(3, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
                     data.add(new MultipleItem(4, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
                     data.add(new MultipleItem(5, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
@@ -125,7 +136,10 @@ public class MainFragment extends Fragment {
                 {
                     data = new ArrayList<>();
                     data.add(new MultipleItem(1, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
-                    data.add(new MultipleItem(2, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
+                    if(!(amp==1&&mHour==11))
+                    {
+                        data.add(new MultipleItem(2, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
+                    }
                     data.add(new MultipleItem(3, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
                     data.add(new MultipleItem(4, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
                     data.add(new MultipleItem(5, mAirBean, mNewWeatherBean,IsLoadInfoSuccess));
