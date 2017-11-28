@@ -303,10 +303,10 @@ public class MultiCityFragment extends Fragment {
     {
         SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String date = mDateFormat .format(new Date());
-        String SharedDate = MySharedpreference.preferences.getString("Date",null);
+        String SharedDate = MySharedpreference.preferences.getString("Date_Multi",null);
         if(SharedDate==null||!date.equals(SharedDate))
         {
-            editor.putString("Date",date);
+            editor.putString("Date_Multi",date);
             editor.commit();
             return false;
         }
