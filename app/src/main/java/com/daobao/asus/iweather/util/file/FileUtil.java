@@ -82,7 +82,7 @@ public final class FileUtil {
         return new File(createDir(sdcardDirName), fileName);
     }
 
-    private static File createFileByTime(String sdcardDirName, String timeFormatHeader, String extension) {
+    public static File createFileByTime(String sdcardDirName, String timeFormatHeader, String extension) {
         final String fileName = getFileNameByTime(timeFormatHeader, extension);
         return createFile(sdcardDirName, fileName);
     }

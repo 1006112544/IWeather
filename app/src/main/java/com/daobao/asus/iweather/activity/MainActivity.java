@@ -1,6 +1,5 @@
 package com.daobao.asus.iweather.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
@@ -16,14 +15,10 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.daobao.asus.iweather.Dialog.OtherCityDialog;
 import com.daobao.asus.iweather.R;
 import com.daobao.asus.iweather.adpter.MyFragmentPagerAdapter;
@@ -31,10 +26,8 @@ import com.daobao.asus.iweather.fragment.MainFragment;
 import com.daobao.asus.iweather.fragment.MultiCityFragment;
 import com.daobao.asus.iweather.util.MySharedpreference;
 import com.daobao.asus.iweather.util.NetState;
-
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,FloatingActionButton.OnClickListener{
@@ -269,5 +262,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             else Toast.makeText(MainActivity.this,"请检查网络",Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(mDrawerLayout.isDrawerOpen(mNavView))
+        {
+            mDrawerLayout.closeDrawer(mNavView);
+        }
+        else
+        {
+            super.onBackPressed();
+        }
+
+
     }
 }

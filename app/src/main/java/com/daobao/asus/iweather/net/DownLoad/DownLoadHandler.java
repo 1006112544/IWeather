@@ -8,7 +8,14 @@ import com.daobao.asus.iweather.net.CallBack.IFailure;
 import com.daobao.asus.iweather.net.CallBack.IRequest;
 import com.daobao.asus.iweather.net.CallBack.ISuccess;
 import com.daobao.asus.iweather.net.RestCreator;
+import com.daobao.asus.iweather.util.file.FileUtil;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.WeakHashMap;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -64,8 +71,10 @@ public class DownLoadHandler {
                 if(response.isSuccessful())
                 {
                     final ResponseBody responseBody = response.body();
+                    //文件总长度
+                    long total =  responseBody.contentLength();
                     final SaveFileTask task = new SaveFileTask(REQUEST,SUCCESS,context);
-                    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,DOWANLOAD_DIR,EXTENSION,responseBody,NAME);
+                    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,DOWANLOAD_DIR,EXTENSION,responseBody,NAME,total);
                     //这里一定要注意判断，否则文件下载不安全
                     if(task.isCancelled())
                     {
@@ -89,4 +98,5 @@ public class DownLoadHandler {
             }
         });
     }
+
 }
